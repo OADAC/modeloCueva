@@ -1,0 +1,1946 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CUEVA · Presentación Maestra · DEFINITIVA — CUEVA OS · Sistema Operativo de la Construcción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CUEVA · PRESENTACIÓN MAESTRA · DEFINITIVA
+   Paleta y tipografía alineadas con el Brandbook oficial
+   Navy + Electric + Coral + Amber + Sky · Inter + JetBrains Mono
+   ============================================================ */
+:root{
+  /* Brandbook · paleta oficial */
+  --navy:#1B2951;       /* Color primario */
+  --navy-d:#0F1A38;     /* Navy oscuro (para fondos profundos) */
+  --navy-2:#243567;
+  --electric:#00D4AA;   /* Acento 1 — tech, digital, OS */
+  --electric-d:#00A88A;
+  --coral:#FF6B4A;      /* Acento 2 — físico, royalty, intensidad */
+  --coral-d:#E84F30;
+  --amber:#F59E0B;      /* Acento 3 — robotización, futuro */
+  --sky:#0EA5E9;        /* Acento 4 — datos, red, gemelo */
+  --sky-d:#0284C7;
+  /* Grises Brandbook */
+  --g900:#0F172A;
+  --g800:#1E293B;
+  --g700:#334155;
+  --g600:#475569;
+  --g500:#64748B;
+  --g400:#94A3B8;
+  --g300:#CBD5E1;
+  --g200:#E2E8F0;
+  --g100:#F1F5F9;
+  --g50:#F8FAFC;
+  --white:#FFFFFF;
+
+  /* Tokens semánticos para la presentación (fondo oscuro premium) */
+  --bg:#070A14;
+  --bg-2:#0D1428;
+  --ink:#F1F5F9;
+  --ink-soft:#CBD5E1;
+  --dim:#64748B;
+
+  /* Aliases hacia paleta antigua para no romper componentes ya escritos */
+  --amber-hi:var(--coral);      /* Acentos cálidos = Coral brandbook */
+  --blue:var(--sky);
+  --cyan:var(--electric);       /* Verde eléctrico brandbook = capa digital */
+  --gold:var(--amber);
+  --green:var(--electric);
+  --violet:var(--sky);          /* Sin púrpura — sustituido por sky */
+  --red:var(--coral);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink);font-family:'Inter','Helvetica Neue',sans-serif;-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+::selection{background:var(--amber);color:#070609}
+h1,h2,.disp{font-family:'Inter','Helvetica Neue',sans-serif;font-weight:900;letter-spacing:-.02em;line-height:1}
+.mono{font-family:'JetBrains Mono',monospace}
+#scene{position:fixed;inset:0;z-index:1}
+#scene canvas{display:block}
+.vig{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 76% 70% at 50% 46%,transparent 48%,rgba(7,10,20,.88) 100%)}
+.grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.2;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ===== CINEMATIC INTRO ===== */
+#cintro{position:fixed;inset:0;z-index:99;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity 1.4s ease,visibility 1.4s ease;overflow:hidden}
+#cintro.gone{opacity:0;visibility:hidden;pointer-events:none}
+.cphrase{position:absolute;text-align:center;width:92%;opacity:0;text-transform:uppercase;font-family:'Inter';font-weight:900;letter-spacing:-.02em;line-height:.92}
+.cphrase.go{animation:cseq 2.3s cubic-bezier(.16,1,.3,1) forwards}
+.cphrase.small{font-family:'JetBrains Mono',monospace;font-weight:400;text-transform:uppercase;font-size:clamp(11px,1.5vw,14px);letter-spacing:.35em;color:var(--dim)}
+.cphrase.med{font-size:clamp(36px,6.5vw,80px);color:var(--ink)}
+.cphrase.med b{color:var(--amber-hi)}
+.cphrase.big{font-size:clamp(96px,18vw,240px)}
+.cphrase.big b{color:var(--amber-hi)}
+.cphrase.tag{font-family:'JetBrains Mono',monospace;font-weight:400;text-transform:uppercase;font-size:clamp(11px,1.6vw,15px);letter-spacing:.4em;color:var(--amber-hi)}
+@keyframes cseq{
+  0%{opacity:0;transform:translateY(36px)}
+  18%{opacity:1;transform:none}
+  78%{opacity:1;transform:none}
+  100%{opacity:0;transform:translateY(-30px)}
+}
+@keyframes cseqHold{
+  0%{opacity:0;transform:translateY(36px) scale(.94)}
+  10%{opacity:1;transform:none}
+  85%{opacity:1;transform:none}
+  100%{opacity:0;transform:translateY(-26px) scale(1.01)}
+}
+.cphrase.big.go{animation:cseqHold 3.6s cubic-bezier(.16,1,.3,1) forwards}
+.cskip{position:absolute;bottom:32px;right:34px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--g500);cursor:pointer;padding:9px 14px;border:1px solid rgba(0,212,170,.32);opacity:.85;transition:.3s;background:rgba(0,212,170,.05);border-radius:100px}
+.cskip:hover{opacity:1;color:var(--electric);border-color:var(--electric)}
+.cglow{position:absolute;left:50%;top:50%;width:900px;height:900px;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,122,46,.16),transparent 62%);filter:blur(20px);opacity:0;animation:cglow 9s ease forwards;animation-delay:4.6s;pointer-events:none}
+@keyframes cglow{0%{opacity:0}40%{opacity:1}100%{opacity:0}}
+
+.hud{position:fixed;z-index:20;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--dim)}
+.hud.tl{top:24px;left:32px}.hud.tr{top:24px;right:32px;text-align:right}
+.hud .brand{font-family:'Inter';font-weight:900;font-size:22px;letter-spacing:-.02em;color:var(--ink);display:inline-flex;align-items:center;gap:10px}
+.hud .brand b{color:var(--coral);font-weight:900}
+/* ===== BRAND MARK (brandbook morphing logo) ===== */
+.bmark{position:relative;width:30px;height:30px;flex-shrink:0;display:inline-block;vertical-align:middle}
+.bmark .bm-circle{position:absolute;inset:0;border:1.6px solid var(--electric);border-radius:50%;animation:bmMorph 8s ease-in-out infinite}
+.bmark .bm-el{position:absolute;border:1.2px solid var(--electric);background:transparent;animation:bmFloat 10s ease-in-out infinite}
+.bmark .bm-hex{clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)}
+.bmark .bm-el:nth-child(2){top:6px;left:6px;width:4px;height:4px;animation-delay:-1s}
+.bmark .bm-el:nth-child(3){top:6px;left:20px;width:4px;height:4px;animation-delay:-2s}
+.bmark .bm-el:nth-child(4){top:13px;left:13px;width:4px;height:4px;animation-delay:-3s}
+.bmark .bm-el:nth-child(5){top:20px;left:8px;width:5px;height:3px;animation-delay:-4s}
+.bmark .bm-el:nth-child(6){top:20px;left:18px;width:5px;height:3px;animation-delay:-5s}
+.bmark .bm-el:nth-child(7){top:9px;left:13px;width:3px;height:3px;animation-delay:-6s}
+@keyframes bmMorph{
+  0%,100%{border-radius:50%;transform:scale(1);border-color:var(--electric)}
+  20%{border-radius:30% 70%;transform:scale(1.04);border-color:var(--coral)}
+  40%{border-radius:60% 40% 70% 30%;transform:scale(.96);border-color:var(--sky)}
+  60%{border-radius:40% 60%;transform:scale(1.06);border-color:var(--amber)}
+  80%{border-radius:70% 30%;transform:scale(.98);border-color:var(--electric)}
+}
+@keyframes bmFloat{
+  0%,100%{transform:translate(0,0) scale(1);border-color:var(--electric)}
+  25%{transform:translate(1.5px,-1.5px) scale(1.18);border-color:var(--coral)}
+  50%{transform:translate(-1.5px,1.5px) scale(.88);border-color:var(--sky)}
+  75%{transform:translate(1px,1px) scale(1.1);border-color:var(--amber)}
+}
+.corner{position:fixed;width:26px;height:26px;z-index:19;pointer-events:none;border:1.4px solid rgba(0,212,170,.28)}
+.corner.a{top:15px;left:15px;border-right:0;border-bottom:0}
+.corner.b{top:15px;right:15px;border-left:0;border-bottom:0}
+.corner.c{bottom:15px;left:15px;border-right:0;border-top:0}
+.corner.d{bottom:15px;right:15px;border-left:0;border-top:0}
+.botbar{position:fixed;left:32px;bottom:24px;z-index:20;display:flex;align-items:baseline;gap:14px;max-width:60vw}
+.botbar .nm{font-family:'Inter';font-weight:900;font-size:13px;color:var(--ink)}
+.botbar .pc{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--dim)}
+.botbar .pc b{color:var(--amber-hi);font-weight:400}
+.dualtag{position:fixed;right:32px;bottom:24px;z-index:20;display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em}
+.dualtag span{display:flex;align-items:center;gap:7px;color:var(--dim)}
+.dualtag i{width:8px;height:8px}
+.dualtag .f i{background:var(--amber-hi)}.dualtag .d i{background:var(--cyan)}
+.topbar{position:fixed;top:0;left:0;height:2px;z-index:21;width:0;background:linear-gradient(90deg,var(--electric),var(--coral),var(--amber));box-shadow:0 0 14px rgba(0,212,170,.5);transition:width .12s linear}
+.rail{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:3px}
+.rail .pd{width:6px;height:6px;border:1px solid var(--dim);border-radius:50%;transition:.4s;cursor:pointer}
+.rail .pd.on{background:var(--electric);border-color:var(--electric);box-shadow:0 0 14px rgba(0,212,170,.7);transform:scale(1.7)}
+.rail .pd.done{background:var(--g600);border-color:var(--g600)}
+.rail .pd.act{border-color:var(--coral);width:7px;height:7px;transform:rotate(45deg)}
+.rail .pd.act.on{background:var(--coral);box-shadow:0 0 14px rgba(255,107,74,.7)}
+
+/* CHAPTER FLASH */
+.flash{position:fixed;inset:0;z-index:4;pointer-events:none;background:radial-gradient(ellipse at center,rgba(255,122,46,.18),transparent 60%);opacity:0;transition:opacity .6s}
+.flash.on{opacity:1}
+
+/* ===== LIVE PILL ===== */
+.livepill{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:5px 11px;background:rgba(86,220,230,.08);border:1px solid rgba(86,220,230,.28);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--cyan);border-radius:100px}
+.livepill .lp-d{width:6px;height:6px;border-radius:50%;background:var(--cyan);position:relative;flex-shrink:0}
+.livepill .lp-d::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1.5px solid var(--cyan);animation:lpRing 2s ease-out infinite}
+@keyframes lpRing{0%{transform:scale(.7);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+
+/* ===== ASSET CARD (FLOATING NFT-STYLE · brandbook) ===== */
+.assetcard{margin-top:14px;width:236px;padding:12px 14px;background:linear-gradient(135deg,rgba(27,41,81,.88) 0%,rgba(15,26,56,.78) 100%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(0,212,170,.26);border-radius:10px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--g300);position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.06) inset}
+.assetcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--electric),var(--sky),var(--coral),var(--amber))}
+.assetcard::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:acShim 5s ease-in-out infinite}
+@keyframes acShim{0%,100%{left:-100%}50%{left:160%}}
+.assetcard .acn{font-size:8.5px;letter-spacing:.22em;color:var(--electric);font-weight:700;margin-bottom:7px;text-transform:uppercase}
+.assetcard .acid{font-size:14px;color:var(--white);font-weight:700;letter-spacing:.04em;line-height:1;margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.assetcard .acid span{color:var(--electric)}
+.assetcard .acmeta{display:flex;justify-content:space-between;gap:8px;font-size:8px;letter-spacing:.18em;color:var(--g400)}
+.assetcard .acmeta b{color:var(--white);font-weight:700;letter-spacing:.04em}
+
+/* ===== PARALLAX LAYERS (scanlines + grid + glow halos) ===== */
+.pllx{position:fixed;inset:0;pointer-events:none;z-index:3}
+.pllx-scan{background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.014) 3px 4px);opacity:.5}
+.pllx-grid{background-image:linear-gradient(rgba(0,212,170,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,.05) 1px,transparent 1px);background-size:80px 80px;opacity:.6;transform:translate3d(0,0,0);transition:transform .5s linear}
+.pllx-halo{background:radial-gradient(circle at 18% 26%,rgba(255,107,74,.09) 0%,transparent 32%),radial-gradient(circle at 82% 74%,rgba(0,212,170,.08) 0%,transparent 34%),radial-gradient(circle at 50% 92%,rgba(14,165,233,.06) 0%,transparent 36%),radial-gradient(circle at 30% 90%,rgba(245,158,11,.05) 0%,transparent 32%);transition:transform .6s ease}
+.pllx-noise{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.94' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.85 0 0 0 0 0.85 0 0 0 0 0.8 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.5;mix-blend-mode:overlay}
+
+.story{position:relative;z-index:10}
+.ch{min-height:100vh;display:flex;align-items:center;padding:0 9vw;position:relative;overflow:hidden}
+.ch .in{max-width:580px;position:relative;z-index:2}
+.ch .in.panel{background:linear-gradient(135deg,rgba(7,10,20,.78) 0%,rgba(13,20,40,.62) 100%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:32px 36px;border:1px solid rgba(0,212,170,.18);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.04) inset;max-width:640px}
+.ch .in.panel::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:2px;background:linear-gradient(90deg,var(--electric),var(--coral),var(--amber));border-radius:14px 14px 0 0;opacity:.85}
+.ch.right{justify-content:flex-end}.ch.right .in{text-align:right}
+.ch.center{justify-content:center}.ch.center .in{text-align:center;max-width:920px}
+.kn{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;margin-bottom:20px;display:flex;gap:10px;align-items:center}
+.ch.right .kn{justify-content:flex-end}.ch.center .kn{justify-content:center}
+.kn .dotf{width:7px;height:7px;background:var(--amber-hi)}
+.kn .dotd{width:7px;height:7px;background:var(--cyan)}
+.kn .dotg{width:7px;height:7px;background:var(--green)}
+.kn .dotv{width:7px;height:7px;background:var(--violet)}
+.kn .dotr{width:7px;height:7px;background:var(--red)}
+.kn .doto{width:7px;height:7px;background:var(--gold)}
+.kn.fis{color:var(--amber-hi)}.kn.dig{color:var(--cyan)}.kn.both{color:var(--ink)}
+.kn.fut{color:var(--green)}.kn.ia{color:var(--violet)}.kn.moat{color:var(--red)}.kn.rob{color:var(--gold)}
+.ti{font-size:clamp(36px,5.8vw,82px);text-transform:uppercase;margin-bottom:22px;hyphens:auto;overflow-wrap:break-word;word-break:normal;line-height:.94;letter-spacing:-.025em}
+.ti.tight{font-size:clamp(32px,4.9vw,68px);letter-spacing:-.02em;line-height:.96}
+.ti .am{color:var(--amber)}.ti .cy{color:var(--cyan)}.ti .gd{color:var(--gold)}.ti .gr{color:var(--green)}.ti .vi{color:var(--violet)}.ti .rd{color:var(--red)}
+.tx{font-size:clamp(15px,1.6vw,19px);line-height:1.68;color:#d6d1c4;font-weight:500}
+.tx b{color:var(--ink)}.tx+.tx{margin-top:14px}
+.tg{display:inline-block;margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;padding:9px 15px;border:1px solid rgba(220,82,18,.5);color:var(--amber-hi)}
+.tg.dig{border-color:rgba(86,220,230,.5);color:var(--cyan)}
+.tg.gr{border-color:rgba(111,214,106,.55);color:var(--green)}
+.tg.vi{border-color:rgba(156,123,224,.55);color:var(--violet)}
+.tg.rd{border-color:rgba(224,86,59,.6);color:var(--red)}
+.tg.go{border-color:rgba(232,163,61,.55);color:var(--gold)}
+.rv{opacity:0;transform:translateY(48px);transition:opacity 1.15s cubic-bezier(.16,1,.3,1),transform 1.15s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.38s}.rv.d4{transition-delay:.52s}.rv.d5{transition-delay:.66s}
+
+/* ACT DIVIDERS */
+.ch.act{justify-content:center;align-items:center}
+.ch.act .in{max-width:1100px;text-align:center}
+.ch.act .actno{font-family:'JetBrains Mono',monospace;font-size:clamp(11px,1.5vw,14px);letter-spacing:.46em;color:var(--amber-hi);margin-bottom:30px}
+.ch.act .actrom{font-family:'Inter';font-weight:900;font-size:clamp(140px,28vw,400px);line-height:.84;text-transform:uppercase;letter-spacing:-.04em;color:var(--ink);margin-bottom:18px}
+.ch.act .actrom em{color:var(--amber-hi);font-style:normal}
+.ch.act .acttitle{font-family:'Inter';font-weight:900;font-size:clamp(28px,4.8vw,70px);text-transform:uppercase;letter-spacing:-.02em;line-height:.95;color:var(--ink);margin-bottom:24px}
+.ch.act .acttitle .am{color:var(--amber-hi)}
+.ch.act .acttitle .cy{color:var(--cyan)}
+.ch.act .acttitle .gr{color:var(--green)}
+.ch.act .acttitle .rd{color:var(--red)}
+.ch.act .actsub{font-family:'JetBrains Mono',monospace;font-size:clamp(11px,1.6vw,15px);letter-spacing:.22em;color:var(--dim);text-transform:uppercase;line-height:1.6}
+.ch.act .actbar{width:140px;height:2px;background:var(--amber-hi);margin:32px auto;transform-origin:center;transform:scaleX(0);transition:transform 1.6s cubic-bezier(.16,1,.3,1) .4s}
+.ch.act.has-in .actbar{transform:scaleX(1)}
+.ch.act .actchapters{margin-top:30px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--dim)}
+.ch.act .actchapters span{padding:5px 10px;border:1px solid rgba(141,138,126,.3)}
+
+#hero .in{max-width:1100px}
+#hero .ti{font-size:clamp(54px,11vw,150px);line-height:.88}
+.eye{display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.2);padding:10px 18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--amber-hi);margin-bottom:34px}
+.eye .d{width:7px;height:7px;background:var(--amber);border-radius:50%;animation:bk 1.5s infinite}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:.2}}
+.cue{margin-top:44px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--dim);display:flex;align-items:center;gap:14px;justify-content:center}
+.cue .ln{width:60px;height:1px;background:linear-gradient(90deg,var(--amber-hi),transparent);position:relative;overflow:hidden}
+.cue .ln::after{content:"";position:absolute;inset:0;width:22px;background:var(--amber-hi);animation:sl 1.9s infinite}
+@keyframes sl{0%{transform:translateX(-24px)}100%{transform:translateX(66px)}}
+
+.ledger{margin-top:24px;display:flex;flex-direction:column;gap:1px;max-width:450px;border:1px solid rgba(255,255,255,.13)}
+.right .ledger{margin-left:auto}
+.ld{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:11px 16px;background:rgba(7,6,9,.6);font-family:'JetBrains Mono',monospace}
+.ld .k{font-size:10px;letter-spacing:.08em;color:var(--dim)}
+.ld .v{font-family:'Inter';font-weight:900;font-size:13.5px;color:var(--ink)}
+.ld.hot .v{color:var(--amber-hi)}.ld.cyh .v{color:var(--cyan)}.ld.gh .v{color:var(--green)}.ld.vh .v{color:var(--violet)}.ld.rh .v{color:var(--red)}
+.grid7{margin-top:24px;display:grid;grid-template-columns:repeat(7,1fr);gap:6px;max-width:560px}
+.center .grid7{margin:24px auto 0}.right .grid7{margin-left:auto}
+.g7{border:1px solid rgba(255,255,255,.14);padding:11px 3px;text-align:center;background:rgba(7,6,9,.55);font-family:'JetBrains Mono',monospace}
+.g7 .a{font-size:15px;font-weight:700;color:var(--cyan)}
+.g7 .l{font-size:7.5px;letter-spacing:.03em;color:var(--dim);margin-top:6px;line-height:1.3}
+.grid13{margin-top:22px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;max-width:480px}
+.right .grid13{margin-left:auto}
+.cm{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.12);background:rgba(7,6,9,.55);padding:8px 10px;font-family:'JetBrains Mono',monospace}
+.cm .n{font-size:9px;color:var(--cyan);width:18px;font-weight:700}
+.cm .t{font-size:10px;color:var(--ink);font-family:'Inter';font-weight:700;text-transform:uppercase}
+.cm.gd .n{color:var(--gold)}.cm.gr .n{color:var(--green)}
+.cap{margin-top:22px;display:grid;grid-template-columns:1fr;gap:6px;max-width:480px}
+.right .cap{margin-left:auto}
+.cap .it{display:flex;gap:13px;align-items:flex-start;padding:9px 12px;border:1px solid rgba(255,255,255,.12);background:rgba(7,6,9,.5)}
+.cap .it .n{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--green);width:24px;font-weight:700}
+.cap .it .b{font-family:'Inter';font-weight:800;font-size:11px;color:var(--ink);text-transform:uppercase;line-height:1.2;flex:1}
+.cap .it .b small{display:block;font-family:'JetBrains Mono',monospace;font-weight:400;font-size:9px;color:var(--dim);margin-top:3px;text-transform:none;letter-spacing:0;line-height:1.4}
+.cap.vi .it .n{color:var(--violet)}.cap.cy .it .n{color:var(--cyan)}.cap.gd .it .n{color:var(--gold)}.cap.rd .it .n{color:var(--red)}.cap.gr .it .n{color:var(--green)}
+
+#final{background:linear-gradient(180deg,transparent,rgba(7,10,20,.5))}
+.sello{margin-top:42px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--g400);display:flex;flex-direction:column;gap:12px;align-items:center}
+.sello .line{width:60px;height:1px;background:linear-gradient(90deg,var(--electric),var(--coral))}
+.sello b{color:var(--electric);font-weight:700}
+
+#loader{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s}
+#loader.gone{opacity:0;pointer-events:none}
+#loader .lboot{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+#loader .lbtag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.42em;color:var(--electric);padding:5px 14px;border:1px solid rgba(0,212,170,.32);background:rgba(0,212,170,.06);text-transform:uppercase;border-radius:100px}
+#loader .lb{font-family:'Inter';font-weight:900;font-size:clamp(48px,10vw,120px);letter-spacing:-.04em;margin-top:14px;display:flex;align-items:center;gap:18px}
+#loader .lb .bmark{width:54px;height:54px}
+#loader .lb .bmark .bm-circle{border-width:2.4px}
+#loader .lb .bmark .bm-el{border-width:1.6px}
+#loader .lb .bmark .bm-el:nth-child(2){top:11px;left:11px;width:7px;height:7px}
+#loader .lb .bmark .bm-el:nth-child(3){top:11px;left:36px;width:7px;height:7px}
+#loader .lb .bmark .bm-el:nth-child(4){top:23px;left:23px;width:8px;height:8px}
+#loader .lb .bmark .bm-el:nth-child(5){top:36px;left:14px;width:9px;height:5px}
+#loader .lb .bmark .bm-el:nth-child(6){top:36px;left:32px;width:9px;height:5px}
+#loader .lb .bmark .bm-el:nth-child(7){top:17px;left:23px;width:5px;height:5px}
+#loader .lb b{color:var(--coral)}
+#loader .lbsub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.36em;color:var(--g500);text-transform:uppercase}
+#loader .lp{width:300px;max-width:80vw;height:2px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:18px;position:relative;border-radius:2px}
+#loader .lp i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--electric),var(--sky),var(--coral),var(--amber));box-shadow:0 0 14px rgba(0,212,170,.6);transition:width .3s}
+#loader .lsteps{margin-top:22px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--g600);display:flex;flex-direction:column;gap:5px;text-align:left;min-width:300px}
+#loader .lstep{opacity:0;transition:opacity .35s;color:var(--g600)}
+#loader .lstep.on{opacity:.95;color:var(--ink-soft)}
+#loader .lstep.on::before{content:'▸ ';color:var(--electric)}
+#loader .lstep.last.on{color:var(--coral)}
+#loader .lstep.last.on::before{color:var(--coral)}
+
+/* =====================================================
+   PORTADA · GATE DE ACCESO (ultrapotente)
+   ===================================================== */
+#gate{position:fixed;inset:0;z-index:200;background:radial-gradient(ellipse 90% 90% at 50% 50%,#0F1A38 0%,#070A14 60%,#04060D 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5vh 24px;overflow:hidden;transition:opacity 1.2s cubic-bezier(.16,1,.3,1),visibility 1.2s,transform 1.2s cubic-bezier(.16,1,.3,1)}
+#gate.gone{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.04)}
+/* aurora capas brand */
+#gate::before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle at 22% 28%,rgba(0,212,170,.18) 0%,transparent 36%),radial-gradient(circle at 78% 72%,rgba(255,107,74,.16) 0%,transparent 38%),radial-gradient(circle at 50% 92%,rgba(14,165,233,.14) 0%,transparent 36%),radial-gradient(circle at 90% 14%,rgba(245,158,11,.10) 0%,transparent 32%);filter:blur(60px);animation:gateAurora 18s ease-in-out infinite;pointer-events:none}
+#gate::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,170,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,.04) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 0%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 0%,transparent 70%)}
+@keyframes gateAurora{
+  0%,100%{transform:translate(0,0) scale(1);opacity:.9}
+  33%{transform:translate(-2%,2%) scale(1.08);opacity:1}
+  66%{transform:translate(2%,-1%) scale(.96);opacity:.85}
+}
+/* partículas geométricas flotantes (brand) */
+.gpart{position:absolute;border:1.4px solid;pointer-events:none;opacity:0;animation:gpartFloat 14s linear infinite}
+.gpart.hex{clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);border:0;background:currentColor}
+@keyframes gpartFloat{
+  0%{opacity:0;transform:translate3d(0,40vh,0) rotate(0deg) scale(.6)}
+  10%{opacity:.6}
+  90%{opacity:.6}
+  100%{opacity:0;transform:translate3d(8vw,-60vh,0) rotate(360deg) scale(1.2)}
+}
+/* contenido central */
+#gate .gwrap{position:relative;z-index:2;max-width:560px;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0}
+#gate .gtag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.42em;color:var(--electric);padding:6px 16px;border:1px solid rgba(0,212,170,.35);background:rgba(0,212,170,.06);border-radius:100px;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin-bottom:30px}
+#gate .gtag .gdot{width:6px;height:6px;border-radius:50%;background:var(--electric);position:relative;flex-shrink:0}
+#gate .gtag .gdot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1.4px solid var(--electric);animation:lpRing 2.2s ease-out infinite}
+#gate .gmark{width:160px;height:160px;position:relative;margin-bottom:24px;filter:drop-shadow(0 18px 50px rgba(0,212,170,.32))}
+#gate .gmark .bm-circle{border-width:3px}
+#gate .gmark .bm-el{border-width:2px}
+#gate .gmark .bm-el:nth-child(2){top:32px;left:32px;width:16px;height:16px}
+#gate .gmark .bm-el:nth-child(3){top:32px;left:108px;width:16px;height:16px}
+#gate .gmark .bm-el:nth-child(4){top:67px;left:67px;width:20px;height:20px}
+#gate .gmark .bm-el:nth-child(5){top:103px;left:42px;width:24px;height:13px}
+#gate .gmark .bm-el:nth-child(6){top:103px;left:94px;width:24px;height:13px}
+#gate .gmark .bm-el:nth-child(7){top:48px;left:65px;width:9px;height:9px}
+#gate .gword{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(58px,8vw,110px);letter-spacing:-.045em;color:var(--white);line-height:.9;margin-bottom:6px;display:flex;align-items:baseline;justify-content:center;gap:0}
+#gate .gword b{color:var(--coral);font-weight:900}
+#gate .gword sup{font-family:'JetBrains Mono',monospace;font-size:.18em;color:var(--electric);letter-spacing:.04em;vertical-align:1.7em;font-weight:700;margin-left:8px}
+#gate .gsub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.36em;color:var(--g400);text-transform:uppercase;margin-bottom:42px;font-weight:500}
+/* formulario */
+#gate .gform{width:100%;max-width:380px;display:flex;flex-direction:column;gap:14px;background:linear-gradient(135deg,rgba(27,41,81,.55) 0%,rgba(15,26,56,.45) 100%);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:28px 26px;border:1px solid rgba(0,212,170,.22);border-radius:14px;box-shadow:0 32px 80px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.05) inset;position:relative;overflow:hidden}
+#gate .gform::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--electric),var(--sky),var(--coral),var(--amber))}
+#gate .gform .gflab{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.28em;color:var(--g400);text-transform:uppercase;text-align:left;margin-bottom:5px;font-weight:600}
+#gate .gform .gfield{position:relative}
+#gate .gform input{width:100%;background:rgba(7,10,20,.6);border:1px solid rgba(0,212,170,.18);color:var(--white);padding:13px 14px 13px 36px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.04em;outline:none;transition:border-color .25s,box-shadow .25s,background .25s;-webkit-appearance:none;appearance:none}
+#gate .gform input:focus{border-color:var(--electric);box-shadow:0 0 0 3px rgba(0,212,170,.18);background:rgba(7,10,20,.85)}
+#gate .gform input::placeholder{color:var(--g600)}
+#gate .gform .gficon{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--electric);opacity:.7;pointer-events:none}
+#gate .gform .gbtn{margin-top:6px;background:linear-gradient(135deg,var(--electric) 0%,var(--electric-d) 100%);color:var(--navy-d);border:none;padding:14px 18px;border-radius:8px;font-family:'Inter',sans-serif;font-weight:800;font-size:14px;letter-spacing:.04em;cursor:pointer;transition:transform .15s,box-shadow .25s,background .25s;text-transform:uppercase;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px}
+#gate .gform .gbtn:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(0,212,170,.4)}
+#gate .gform .gbtn:active{transform:translateY(0)}
+#gate .gform .gbtn .garrow{font-family:'JetBrains Mono',monospace;font-weight:700}
+#gate .gform .gbtn[data-state="loading"]{background:linear-gradient(135deg,var(--navy-2) 0%,var(--navy) 100%);color:var(--electric);pointer-events:none}
+#gate .gform .gbtn[data-state="loading"]::after{content:'';position:absolute;left:-100%;top:0;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,170,.25),transparent);animation:gbtnLoad 1s linear infinite}
+@keyframes gbtnLoad{to{left:160%}}
+#gate .gerr{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--coral);text-align:center;text-transform:uppercase;height:14px;opacity:0;transition:opacity .25s}
+#gate .gerr.on{opacity:1;animation:gerrShake .4s}
+@keyframes gerrShake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+#gate.shake .gform{animation:gerrShake .45s}
+#gate .gfoot{margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.32em;color:var(--g600);text-transform:uppercase}
+#gate .gfoot .gline{width:42px;height:1px;background:linear-gradient(90deg,transparent,var(--electric),transparent)}
+#gate .gfoot .gconf{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border:1px solid rgba(255,107,74,.32);color:var(--coral);border-radius:100px}
+#gate .gcorners{position:absolute;inset:18px;border:1px solid rgba(255,255,255,.04);pointer-events:none}
+#gate .gcorners::before,#gate .gcorners::after{content:'';position:absolute;width:20px;height:20px;border:1.4px solid rgba(0,212,170,.42)}
+#gate .gcorners::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+#gate .gcorners::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+/* responsive gate */
+@media(max-width:560px){
+  #gate .gmark{width:120px;height:120px}
+  #gate .gmark .bm-el:nth-child(2){top:24px;left:24px;width:12px;height:12px}
+  #gate .gmark .bm-el:nth-child(3){top:24px;left:84px;width:12px;height:12px}
+  #gate .gmark .bm-el:nth-child(4){top:52px;left:52px;width:15px;height:15px}
+  #gate .gmark .bm-el:nth-child(5){top:80px;left:34px;width:18px;height:10px}
+  #gate .gmark .bm-el:nth-child(6){top:80px;left:74px;width:18px;height:10px}
+  #gate .gmark .bm-el:nth-child(7){top:36px;left:54px;width:7px;height:7px}
+  #gate .gword{font-size:42px}
+  #gate .gsub{font-size:9px;letter-spacing:.22em;margin-bottom:28px}
+  #gate .gform{padding:20px 18px}
+  #gate .gtag{font-size:9px;letter-spacing:.28em}
+}
+
+/* ============ RESPONSIVE PROGRESIVO ============ */
+/* Tablet horizontal y portátiles pequeños */
+@media(max-width:1180px){
+  .ch{padding:0 6vw}
+  .ch .in{max-width:520px}
+  .ti{font-size:clamp(34px,5.4vw,70px)}
+  .ti.tight{font-size:clamp(30px,4.5vw,58px)}
+  .tx{font-size:15px;line-height:1.62}
+  .assetcard{width:200px;font-size:8.5px}
+  .assetcard .acid{font-size:12px}
+  .hud.tl,.hud.tr{font-size:10px}
+  .hud .brand{font-size:19px}
+}
+/* Tablet vertical */
+@media(max-width:920px){
+  .ch{padding:0 7vw;align-items:flex-start;padding-top:90px;padding-bottom:80px}
+  .ch.right{justify-content:flex-start}.ch.right .in{text-align:left}
+  .ch.center .in{text-align:left;max-width:100%}
+  .ch .in{max-width:100%}
+  .ch .in.panel{padding:22px 22px;max-width:100%}
+  .hud.tl,.hud.tr{font-size:9px}
+  .hud.tr{display:none}
+  .hud .brand{font-size:17px}
+  .rail{right:8px}
+  .botbar{left:14px;bottom:16px;max-width:calc(100% - 28px);font-size:11px}
+  .dualtag{display:none}
+  .grid7{grid-template-columns:repeat(4,1fr)}
+  .grid13{grid-template-columns:1fr}
+  .assetcard{display:none}
+  .livepill{font-size:8px;padding:4px 8px;letter-spacing:.16em}
+  #loader .lsteps{display:none}
+  .ti{font-size:clamp(30px,7.4vw,52px);line-height:.98}
+  .ti.tight{font-size:clamp(26px,6.2vw,44px)}
+  .ch.act .actrom{font-size:clamp(96px,22vw,180px)}
+  .ch.act .acttitle{font-size:clamp(22px,4.4vw,42px)}
+  .cap .it{padding:7px 10px}
+  .cap .it .b{font-size:10.5px}
+  .cap .it .b small{font-size:9.5px}
+  .ledger{max-width:none}
+  .grid7{max-width:none}
+  .grid13{max-width:none}
+  .cap{max-width:none}
+}
+/* Móvil */
+@media(max-width:560px){
+  .ch{padding:80px 5vw 70px;min-height:100svh}
+  .ti{font-size:clamp(26px,8.2vw,40px)}
+  .ti.tight{font-size:clamp(24px,7vw,34px)}
+  .tx{font-size:14px;line-height:1.55}
+  .ch .in.panel{padding:18px 16px;border-radius:10px}
+  .grid7{grid-template-columns:repeat(2,1fr)}
+  .grid13{grid-template-columns:1fr}
+  .botbar .nm{font-size:11px}
+  .botbar .pc{font-size:9px}
+  .hud.tl{top:14px;left:14px}
+  .hud .brand{font-size:15px;gap:8px}
+  .bmark{width:24px;height:24px}
+  .livepill{display:none}
+  .rail{display:none}
+  .corner{display:none}
+  #loader .lb{font-size:54px}
+  #loader .lboot{padding:0 24px}
+  #loader .lp{width:80vw;max-width:280px}
+}
+/* Pantalla muy ancha — limitamos para no quedar perdidos */
+@media(min-width:1800px){
+  .ch{padding:0 12vw}
+  .ch .in{max-width:760px}
+  .ch.center .in{max-width:1080px}
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     PORTADA · GATE DE ACCESO RESTRINGIDO
+     ===================================================== -->
+<div id="gate">
+  <div class="gcorners"></div>
+  <!-- partículas geométricas brand flotantes -->
+  <span class="gpart hex" style="color:var(--electric);width:10px;height:10px;left:8%;animation-delay:0s"></span>
+  <span class="gpart" style="border-color:var(--coral);width:8px;height:8px;left:22%;animation-delay:2.5s"></span>
+  <span class="gpart hex" style="color:var(--sky);width:12px;height:12px;left:78%;animation-delay:4s"></span>
+  <span class="gpart" style="border-color:var(--amber);width:6px;height:6px;left:92%;animation-delay:6s"></span>
+  <span class="gpart hex" style="color:var(--electric);width:8px;height:8px;left:36%;animation-delay:8s"></span>
+  <span class="gpart" style="border-color:var(--coral);width:10px;height:10px;left:62%;animation-delay:10s"></span>
+  <span class="gpart hex" style="color:var(--sky);width:7px;height:7px;left:48%;animation-delay:12s"></span>
+
+  <div class="gwrap">
+    <div class="gtag"><span class="gdot"></span>SISTEMA RESTRINGIDO · ACCESO AUTORIZADO</div>
+
+    <div class="gmark bmark" aria-hidden="true">
+      <span class="bm-circle"></span>
+      <span class="bm-el bm-hex"></span>
+      <span class="bm-el bm-hex"></span>
+      <span class="bm-el"></span>
+      <span class="bm-el"></span>
+      <span class="bm-el"></span>
+      <span class="bm-el"></span>
+    </div>
+
+    <div class="gword">CUE<b>V</b>A<sup>::OS</sup></div>
+    <div class="gsub">Sistema Operativo de la Construcción · Presentación Maestra · Definitiva</div>
+
+    <form class="gform" id="gateForm" autocomplete="on">
+      <div>
+        <div class="gflab">USUARIO</div>
+        <div class="gfield">
+          <svg class="gficon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="5.5" r="2.6"/><path d="M2.6 14c.6-3 2.8-4.6 5.4-4.6S12.8 11 13.4 14"/></svg>
+          <input type="email" id="gateUser" name="username" placeholder="usuario@cueva.com" autocomplete="username" required>
+        </div>
+      </div>
+      <div>
+        <div class="gflab">CONTRASEÑA</div>
+        <div class="gfield">
+          <svg class="gficon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V4.5a2.5 2.5 0 0 1 5 0V7"/></svg>
+          <input type="password" id="gatePass" name="password" placeholder="••••••••••••" autocomplete="current-password" required>
+        </div>
+      </div>
+      <button type="submit" class="gbtn" id="gateBtn">
+        <span class="gbtxt">ENTRAR AL SISTEMA</span><span class="garrow">→</span>
+      </button>
+      <div class="gerr" id="gateErr">CREDENCIALES INCORRECTAS · VERIFIQUE Y REINTENTE</div>
+    </form>
+
+    <div class="gfoot">
+      <div class="gline"></div>
+      <div>v · DEFINITIVA · MAYO 2026</div>
+      <div class="gconf">▸ MATERIAL CONFIDENCIAL</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================
+   CUEVA · GATE DE ACCESO · validación client-side
+   ===================================================== */
+(function(){
+  const TOKEN_KEY='cueva_os_unlocked_v1';
+  // Credenciales codificadas en base64 (obfuscación visual, no seguridad real)
+  const U=atob('aW5mb0BjdWV2YS5jb20=');      // info@cueva.com
+  const P=atob('aGFjZW1vc0N1ZXZA');           // hacemosCuev@
+
+  const gate=document.getElementById('gate');
+  const form=document.getElementById('gateForm');
+  const inU=document.getElementById('gateUser');
+  const inP=document.getElementById('gatePass');
+  const err=document.getElementById('gateErr');
+  const btn=document.getElementById('gateBtn');
+  if(!gate||!form)return;
+
+  function unlock(){
+    try{localStorage.setItem(TOKEN_KEY,'1');}catch(e){}
+    window.__gateOK=true;
+    gate.classList.add('gone');
+    setTimeout(()=>{if(typeof window.__startBoot==='function')window.__startBoot();},120);
+  }
+
+  // Auto-desbloqueo si ya validado en esta máquina
+  try{
+    if(localStorage.getItem(TOKEN_KEY)==='1'){unlock();return;}
+  }catch(e){}
+
+  form.addEventListener('submit',ev=>{
+    ev.preventDefault();
+    err.classList.remove('on');
+    const u=(inU.value||'').trim().toLowerCase();
+    const p=inP.value||'';
+    const txtSpan=btn.querySelector('.gbtxt');
+    btn.dataset.state='loading';
+    txtSpan.textContent='AUTENTICANDO…';
+    setTimeout(()=>{
+      if(u===U.toLowerCase()&&p===P){
+        txtSpan.textContent='ACCESO CONCEDIDO ✓';
+        btn.style.background='linear-gradient(135deg,#00D4AA 0%,#00A88A 100%)';
+        setTimeout(unlock,520);
+      }else{
+        btn.dataset.state='';
+        txtSpan.textContent='ENTRAR AL SISTEMA';
+        err.classList.add('on');
+        gate.classList.add('shake');
+        setTimeout(()=>gate.classList.remove('shake'),520);
+        inP.value='';
+        inP.focus();
+      }
+    },680);
+  });
+
+  // Atajo dev (Ctrl+Shift+L para limpiar sesión)
+  addEventListener('keydown',e=>{
+    if(e.ctrlKey&&e.shiftKey&&e.key==='L'){
+      try{localStorage.removeItem(TOKEN_KEY);}catch(e){}
+      location.reload();
+    }
+  });
+
+  // foco inicial
+  setTimeout(()=>{try{inU.focus();}catch(e){}},400);
+})();
+</script>
+
+<div id="loader">
+  <div class="lboot">
+    <div class="lbtag">CUEVA::OS · DEFINITIVA · BOOTING</div>
+    <div class="lb">
+      <span class="bmark" aria-hidden="true">
+        <span class="bm-circle"></span>
+        <span class="bm-el bm-hex"></span>
+        <span class="bm-el bm-hex"></span>
+        <span class="bm-el"></span>
+        <span class="bm-el"></span>
+        <span class="bm-el"></span>
+        <span class="bm-el"></span>
+      </span>
+      <span>CUE<b>V</b>A</span>
+    </div>
+    <div class="lbsub">SISTEMA OPERATIVO DE LA CONSTRUCCIÓN</div>
+    <div class="lp"><i id="lpFill"></i></div>
+    <div class="lsteps">
+      <div class="lstep" id="lstep0">// LOAD KERNEL · CUEVA OS</div>
+      <div class="lstep" id="lstep1">// MOUNT BLOCKCHAIN · POLYGON</div>
+      <div class="lstep" id="lstep2">// REGISTER NEURONAS · 1ª GEN</div>
+      <div class="lstep" id="lstep3">// SYNC CARPETA MADRE · 0xCAVE…</div>
+      <div class="lstep" id="lstep4">// ACTIVATE 7 LAYERS · A→G</div>
+      <div class="lstep" id="lstep5">// READY</div>
+    </div>
+  </div>
+</div>
+
+<div id="cintro">
+  <div class="cglow"></div>
+  <div class="cphrase small p1">Mayo · 2026 · Definitiva</div>
+  <div class="cphrase med p2">La mayor industria<br>del <b>planeta…</b></div>
+  <div class="cphrase med p3">trabaja sin<br><b>memoria.</b></div>
+  <div class="cphrase med p4">Sin <b>dato.</b><br>Sin <b>red.</b><br>Sin <b>sistema.</b></div>
+  <div class="cphrase big p5">CUE<b>V</b>A<sup style="font-size:.18em;color:var(--electric);letter-spacing:.04em;vertical-align:1.4em">::OS</sup></div>
+  <div class="cphrase tag p6">El sistema operativo de la construcción</div>
+  <button class="cskip" id="cskip">SALTAR INTRO →</button>
+</div>
+
+<div id="scene"></div>
+<div class="pllx pllx-halo" id="pllxHalo"></div>
+<div class="pllx pllx-grid" id="pllxGrid"></div>
+<div class="pllx pllx-scan"></div>
+<div class="pllx pllx-noise"></div>
+<div class="vig"></div>
+<div class="grain"></div>
+<div class="flash" id="flash"></div>
+<div class="corner a"></div><div class="corner b"></div><div class="corner c"></div><div class="corner d"></div>
+
+<div class="hud tl">
+  <div class="brand">
+    <span class="bmark" aria-hidden="true">
+      <span class="bm-circle"></span>
+      <span class="bm-el bm-hex"></span>
+      <span class="bm-el bm-hex"></span>
+      <span class="bm-el"></span>
+      <span class="bm-el"></span>
+      <span class="bm-el"></span>
+      <span class="bm-el"></span>
+    </span>
+    <span>CUE<b>V</b>A<sup style="font-size:9px;letter-spacing:.16em;color:var(--electric);margin-left:6px;vertical-align:7px">::OS</sup></span>
+  </div>
+  <div style="margin-top:7px">PRESENTACIÓN MAESTRA · DEFINITIVA</div>
+  <div style="margin-top:5px;font-size:9px;color:#6f7388;letter-spacing:.22em">SISTEMA OPERATIVO · CONSTRUCCIÓN · 2026</div>
+  <div class="livepill" id="livepill"><span class="lp-d"></span><span id="lpTxt">LIVE · NODOS 0 / m² 0</span></div>
+</div>
+<div class="hud tr">EL SISTEMA OPERATIVO<br>DE LA CONSTRUCCIÓN<br><span style="color:var(--electric);font-size:9px;letter-spacing:.3em;margin-top:5px;display:block">// ACTIVO · NODO · RED</span>
+  <div class="assetcard" id="assetcard">
+    <div class="acn">ASSET ID · CV-RES-2026-001</div>
+    <div class="acid">0x<span id="acHash">CAVE7A2E…04B1</span></div>
+    <div class="acmeta"><span>BLOCK <b id="acBlk">284,193</b></span><span>CHAIN <b>POLYGON</b></span></div>
+  </div>
+</div>
+<div class="topbar" id="topbar"></div>
+<div class="rail" id="rail"></div>
+<div class="botbar"><span class="nm" id="bNow">HERO</span><span class="pc"><b id="bPct">00</b> · DESPLAZA</span></div>
+<div class="dualtag"><span class="f"><i></i>FÍSICO</span><span class="d"><i></i>DIGITAL</span></div>
+
+<div class="story">
+
+  <section class="ch center" id="hero">
+    <div class="in">
+      <div class="eye rv"><span class="d"></span>CUEVA OS · SISTEMA OPERATIVO DE LA CONSTRUCCIÓN · v4</div>
+      <h1 class="ti rv d1">El activo,<br>el <span class="cy">sistema</span><br>y la <span class="am">red.</span></h1>
+      <p class="tx rv d2" style="max-width:760px;margin:0 auto">Cada activo CUEVA nace dentro de un <b>sistema operativo común</b>: cuerpo físico que se levanta, capa de datos que lo coordina, nodo que lo conecta a una red distribuida que no existía. El gemelo digital es <b>una pieza más</b> del sistema. <b>CUEVA OS</b> es la capa entera que integra software, hardware, robótica, datos, blockchain, gobernanza y red — y que ningún competidor ofrece junto.</p>
+      <div class="cue rv d3"><span>DESPLAZA PARA EMPEZAR</span><span class="ln"></span></div>
+    </div>
+  </section>
+
+  <section class="ch act" id="actI">
+    <div class="in">
+      <div class="actno rv">ACTO I</div>
+      <div class="actrom rv d1"><em>I</em></div>
+      <div class="acttitle rv d2">La <span class="am">tesis.</span></div>
+      <div class="actbar"></div>
+      <div class="actsub rv d3">El problema · La idea · El activo</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c1">
+    <div class="in">
+      <div class="kn rv">[ 01 ] · EL PROBLEMA</div>
+      <h2 class="ti rv d1">La mayor industria<br>del <span class="am">planeta.</span></h2>
+      <p class="tx rv d2">La construcción es la mayor industria del mundo — y la menos conectada. Cada agente con su herramienta. Cada activo, sin memoria.</p>
+      <p class="tx rv d3">Al entregar la obra, <b>el conocimiento del activo se evapora</b>. Sin trazabilidad, sin dato, sin sistema operativo común. Empezar de cero, siempre.</p>
+      <div class="tg rv d4">▸ FALTA UN SISTEMA OPERATIVO</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c2">
+    <div class="in">
+      <div class="kn both rv"><span class="dotf"></span><span class="dotd"></span>[ 02 ] · LA TESIS</div>
+      <h2 class="ti rv d1">Activo digital<br>con <span class="cy">colateral físico.</span></h2>
+      <p class="tx rv d2">Cada elemento construido nace como un activo dual: un <b>cuerpo material</b> que se levanta — y una <b>réplica de datos</b> que vive con él. Diseño, fabricación, montaje, datos y gobernanza en una sola capa.</p>
+      <p class="tx rv d3"><b>Si no está en el sistema, no existe.</b></p>
+      <div class="tg dig rv d4">▸ FÍSICO ↔ DIGITAL · VINCULADOS</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c3">
+    <div class="in">
+      <div class="kn fis rv"><span class="dotf"></span>[ 03 ] · EL ACTIVO</div>
+      <h2 class="ti rv d1">Mil piezas,<br>un <span class="am">activo.</span></h2>
+      <p class="tx rv d2">El sistema ordena el caos. Miles de piezas industrializadas se ensamblan con precisión hasta formar <b>la unidad mínima del modelo</b>: el activo. Velocidad, control, trazabilidad.</p>
+      <div class="tg rv d3">▸ EL ACTIVO SE ENSAMBLA</div>
+    </div>
+  </section>
+
+  <section class="ch act" id="actII">
+    <div class="in">
+      <div class="actno rv">ACTO II</div>
+      <div class="actrom rv d1"><em>II</em></div>
+      <div class="acttitle rv d2">La <span class="am">construcción.</span></div>
+      <div class="actbar"></div>
+      <div class="actsub rv d3">Robotización · Estructura · Módulos · Envolvente · Infraestructura</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c4">
+    <div class="in">
+      <div class="kn dig rv"><span class="dotd"></span>[ 04 ] · EL GEMELO · UNA PIEZA DEL OS</div>
+      <h2 class="ti rv d1">Nace,<br>al <span class="cy">mismo tiempo.</span></h2>
+      <p class="tx rv d2">En el instante en que se forma el cuerpo físico, nace su <b>réplica de datos</b>: geometría, materiales, registros, identidad on-chain. Es <b>el gemelo digital</b> — y es <b>sólo una pieza</b> de CUEVA OS. La que un competidor pone como producto entero, aquí es la capa más visible de un sistema mucho mayor.</p>
+      <p class="tx rv d3">A partir de este punto el activo viaja dentro del sistema: el OS lo identifica, lo enchufa a la red, le activa las 7 capas, lo registra y lo gobierna. El gemelo es la <b>foto técnica</b>; el OS, la <b>vida operativa</b>.</p>
+      <div class="tg dig rv d4">▸ EL ACTIVO ENTRA A CUEVA OS</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c5">
+    <div class="in">
+      <div class="kn rob rv"><span class="doto"></span>[ 05 ] · IMPLEMENTACIÓN · FABRICANTES</div>
+      <h2 class="ti rv d1">La pila tecnológica<br>se <span class="gd">enciende.</span></h2>
+      <p class="tx rv d2"><b>CUEVA OS se implementa hoy en cualquier planta operativa</b> en cuestión de semanas — sin obra propia, sin sustituir maquinaria, sin frenar producción. Lo que el fabricante recibe el primer día: <b>trazabilidad pieza a pieza</b>, certificación on-chain, pasaporte digital por módulo, <b>optimización de fabricación</b> (mix de pieza, orden, tiempos muertos), <b>optimización de transporte</b> (JIT, ruta, carga), <b>gestión inteligente de personal</b> y reporte automatizado al cliente final. La planta gana margen, control y datos desde la primera unidad emitida bajo el sistema.</p>
+      <p class="tx rv d3">Sobre esa pila, <b>la robotización entra por progresión</b> — no como producto, sino como capa: hoy brazos articulados en una bahía, mañana cobots en otra, después vehículos autónomos, después drones, después operación robótica del activo en vida útil. <b>CUEVA OS está preparado para todo</b>: cada robot que se incorpora se conecta al sistema sin reescribir nada. La industria robotizada no se compra de golpe — se monta sobre el OS, ladrillo a ladrillo.</p>
+      <div class="cap gd rv d4">
+        <div class="it"><span class="n">▸</span><span class="b">Implementación · semanas<small>se monta sobre planta existente · sin frenar producción</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Trazabilidad + certificación<small>pasaporte digital por pieza · sello on-chain</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Optimización fab + transporte<small>mix, tiempos, ruta, carga, personal · todo medido</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Robótica por progresión<small>el OS está listo · cada robot entra cuando entre</small></span></div>
+      </div>
+      <div class="tg go rv d5">▸ CUEVA OS = PILA + ROBÓTICA PROGRESIVA</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c6">
+    <div class="in">
+      <div class="kn fis rv"><span class="dotf"></span>[ 06 ] · FÍSICO · ESTRUCTURA</div>
+      <h2 class="ti rv d1">Se levanta la<br><span class="am">estructura.</span></h2>
+      <p class="tx rv d2">El <b>Designer avanzado</b> resuelve el proyecto entero — geometría, despiece, cálculo, simulación sísmica, memoria. La estructura del activo se levanta planta a planta, ya verificada y licenciada bajo el sistema.</p>
+      <div class="tg rv d3">▸ FEE DE DISEÑO · IA GENERATIVA</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c7">
+    <div class="in">
+      <div class="kn fis rv"><span class="dotf"></span>[ 07 ] · FÍSICO · MÓDULOS</div>
+      <h2 class="ti rv d1">Pieza<br>a <span class="am">pieza.</span></h2>
+      <p class="tx rv d2">Los <b>licenciatarios de fabricación</b> producen los módulos en planta digitalizada. Cada pieza llega terminada, con su pasaporte digital, y encaja en su bahía. Construcción industrializada, no obra húmeda.</p>
+      <div class="tg rv d3">▸ FEE DE FABRICACIÓN</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c8">
+    <div class="in">
+      <div class="kn fis rv"><span class="dotf"></span>[ 08 ] · FÍSICO · ENVOLVENTE</div>
+      <h2 class="ti rv d1">La envolvente<br>lo <span class="am">cierra.</span></h2>
+      <p class="tx rv d2">Fachada, carpinterías, aislamiento. El <b>licenciatario de montaje</b> instala la piel del activo y el <b>Proof of Installation</b> verifica el resultado real contra el modelo del sistema, on-chain.</p>
+      <div class="tg rv d3">▸ FEE DE MONTAJE · PROOF OF INSTALLATION</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c9">
+    <div class="in">
+      <div class="kn fis rv"><span class="dotf"></span>[ 09 ] · FÍSICO · INFRAESTRUCTURA</div>
+      <h2 class="ti rv d1">No acaba en<br>el <span class="am">edificio.</span></h2>
+      <p class="tx rv d2">Calle, acera, alumbrado inteligente <b>iPath</b>, plaza, subsuelo. CUEVA industrializa también la infraestructura urbana — cada pieza, también un activo del sistema.</p>
+      <div class="tg rv d3">▸ iPath · PRODUCTO URBANO</div>
+    </div>
+  </section>
+
+  <section class="ch act" id="actIII">
+    <div class="in">
+      <div class="actno rv">ACTO III</div>
+      <div class="actrom rv d1"><em>III</em></div>
+      <div class="acttitle rv d2">El <span class="cy">sistema</span> operativo.</div>
+      <div class="actbar"></div>
+      <div class="actsub rv d3">7 capas · Neuronas · Hardware · Carpeta Madre · Gemelo</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c10">
+    <div class="in">
+      <div class="kn dig rv"><span class="dotd"></span>[ 10 ] · DIGITAL · LAS 7 CAPAS DE INGRESO</div>
+      <h2 class="ti rv d1">El sistema<br><span class="cy">monetiza.</span></h2>
+      <p class="tx rv d2">Mientras el cuerpo físico se construye, <b>CUEVA OS</b> activa el negocio. Siete capas de ingreso giran alrededor del activo — no paga una vez: paga <b>durante toda su vida útil</b>. Cada capa es una mecánica del sistema, no una funcionalidad del gemelo.</p>
+      <div class="grid7 rv d3">
+        <div class="g7"><div class="a">A</div><div class="l">ROYALTY</div></div>
+        <div class="g7"><div class="a">B</div><div class="l">DISEÑO</div></div>
+        <div class="g7"><div class="a">C</div><div class="l">HARDWARE</div></div>
+        <div class="g7"><div class="a">D</div><div class="l">SERVICIOS</div></div>
+        <div class="g7"><div class="a">E</div><div class="l">RED</div></div>
+        <div class="g7"><div class="a">F</div><div class="l">MARKET</div></div>
+        <div class="g7"><div class="a">G</div><div class="l">DAO URBANA</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c11">
+    <div class="in">
+      <div class="kn dig rv"><span class="dotd"></span>[ 11 ] · DIGITAL · NEURONAS Y DATOS</div>
+      <h2 class="ti rv d1">El activo<br>emite <span class="cy">dato.</span></h2>
+      <p class="tx rv d2">Sensores y neuronas convierten cada componente en un <b>nodo vivo</b> del sistema. CUEVA OS late: emite dato continuo que sube a la Carpeta Madre y alimenta los <b>servicios verticales</b> — mantenimiento predictivo, eficiencia, seguros paramétricos, certificación.</p>
+      <div class="tg dig rv d3">▸ EL DATO SE VUELVE INGRESO</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c12">
+    <div class="in">
+      <div class="kn dig rv"><span class="dotd"></span>[ 12 ] · DIGITAL · HARDWARE · CHIPS</div>
+      <h2 class="ti rv d1">La inteligencia<br>del <span class="cy">nodo.</span></h2>
+      <p class="tx rv d2">El hardware licenciado es el ancla física del sistema: chips, sensórica, conectividad, neuronas. CUEVA <b>no vende cajas — licencia la inteligencia</b> que las convierte en nodos de CUEVA OS.</p>
+      <p class="tx rv d3">Cada nodo trabaja <b>on-line y off-line</b>. Sin conexión, opera en local: lee, registra, procesa y sirve a su entorno inmediato. Al recuperar señal, sincroniza con la red. <b>Resiliencia total</b>: ni un fallo de operador, ni una zona sin cobertura, ni una caída de cloud detienen el activo. El sistema sigue, el dato se conserva y la cadena se cierra cuando vuelve la conexión.</p>
+      <div class="tg dig rv d4">▸ HARDWARE LICENCIADO · ON/OFF-LINE · RESILIENTE</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c13">
+    <div class="in">
+      <div class="kn dig rv"><span class="dotd"></span>[ 13 ] · CARPETA MADRE · DPP</div>
+      <h2 class="ti rv d1">El expediente<br><span class="cy">vivo.</span></h2>
+      <p class="tx rv d2">El activo lo recuerda todo. La <b>Carpeta Madre</b> reúne sus capas de metadatos. Cada componente lleva su <b>Pasaporte Digital de Producto</b> — material, origen, fabricante, huella, certificaciones, ciclo de vida.</p>
+      <div class="grid13 rv d3">
+        <div class="cm"><span class="n">01</span><span class="t">Geometría</span></div>
+        <div class="cm"><span class="n">02</span><span class="t">Estructura</span></div>
+        <div class="cm"><span class="n">03</span><span class="t">Instalaciones</span></div>
+        <div class="cm"><span class="n">04</span><span class="t">Materiales · DPP</span></div>
+        <div class="cm"><span class="n">05</span><span class="t">Energía · Carbono</span></div>
+        <div class="cm"><span class="n">06</span><span class="t">Mantenimiento</span></div>
+        <div class="cm"><span class="n">07</span><span class="t">Trazabilidad on-chain</span></div>
+        <div class="cm"><span class="n">08</span><span class="t">Gobernanza</span></div>
+        <div class="cm gd"><span class="n">09</span><span class="t">Stock municipal</span></div>
+        <div class="cm gd"><span class="n">10</span><span class="t">Servicios municipales</span></div>
+        <div class="cm gd"><span class="n">11</span><span class="t">Tour turístico</span></div>
+        <div class="cm gd"><span class="n">12</span><span class="t">Contenido informativo</span></div>
+        <div class="cm gd"><span class="n">13</span><span class="t">Realidad mixta</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch act" id="actIV">
+    <div class="in">
+      <div class="actno rv">ACTO IV</div>
+      <div class="actrom rv d1"><em>IV</em></div>
+      <div class="acttitle rv d2">El activo <span class="gr">vivo.</span></div>
+      <div class="actbar"></div>
+      <div class="actsub rv d3">Cómputo · IA · Servicio · Créditos · Ciudad · Marketplace</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c14">
+    <div class="in panel">
+      <div class="kn both rv"><span class="dotf"></span><span class="dotd"></span>[ 14 ] · EL ACTIVO VIVO</div>
+      <h2 class="ti rv d1">Empieza la <span class="am">vida.</span><br>Empieza el <span class="cy">dato.</span></h2>
+      <p class="tx rv d2">El activo está construido y conectado a <b>CUEVA OS</b>. Empieza su <b>vida útil</b> — décadas. El cuerpo físico ocupa, consume, se mantiene, se utiliza. El sistema lo mide, lo predice y lo monetiza en tiempo real. Aquí empieza la verdadera explotación.</p>
+      <div class="tg rv d3">▸ DEL EDIFICIO AL ACTIVO PRODUCTIVO</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c15">
+    <div class="in">
+      <div class="kn dig rv"><span class="dotd"></span>[ 15 ] · NODOS · CÓMPUTO + ALMACENAMIENTO</div>
+      <h2 class="ti rv d1">Cada activo,<br>un <span class="cy">nodo.</span></h2>
+      <p class="tx rv d2">Cada activo aporta a la red su capacidad de <b>cómputo</b>, <b>almacenamiento</b> y <b>ancho de banda</b>. Procesadores en el edificio. Memoria en el edificio. Backbone en el edificio. La red distribuida no necesita data centers ajenos — <b>la red distribuida es ella misma</b>.</p>
+      <p class="tx rv d3">El modelo es el de las placas solares aplicado al cómputo: <b>el 25% es de CUEVA, exclusivo y siempre</b>; el 75% es del propietario, que lo usa o lo <b>vende</b> — preferente y a precio preferente a CUEVA, o a terceros. Cuantos más activos, mayor capacidad total. <b>Cero coste marginal de infraestructura</b>: la infraestructura ya está construida.</p>
+      <div class="ledger rv d4">
+        <div class="ld cyh"><span class="k">CÓMPUTO</span><span class="v">DISTRIBUIDO · EDGE</span></div>
+        <div class="ld cyh"><span class="k">ALMACENAMIENTO</span><span class="v">EN EL NODO</span></div>
+        <div class="ld cyh"><span class="k">CUOTA CUEVA</span><span class="v">25% EXCLUSIVO</span></div>
+        <div class="ld cyh"><span class="k">CUOTA PROPIETARIO</span><span class="v">75% VENDIBLE</span></div>
+        <div class="ld cyh"><span class="k">COSTE MARGINAL</span><span class="v">CERO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c16">
+    <div class="in">
+      <div class="kn ia rv"><span class="dotv"></span>[ 16 ] · FUTURO · IA EN EL ACTIVO</div>
+      <h2 class="ti rv d1">La IA baja al<br><span class="vi">edificio.</span></h2>
+      <p class="tx rv d2">Sobre los nodos del activo se ejecutarán <b>modelos de IA en local</b>: inferencia sin latencia, sin enviar dato fuera, sin depender de la nube. Predicción de uso, optimización energética, agentes autónomos sobre CUEVA OS.</p>
+      <p class="tx rv d3">La inteligencia artificial deja de vivir en data centers remotos — <b>vive en el edificio</b>, sobre el sistema operativo del activo.</p>
+      <div class="cap vi rv d4">
+        <div class="it"><span class="n">▸</span><span class="b">Inferencia local<small>modelos ejecutándose en el nodo, sin nube</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Activo inteligente<small>el sistema predice uso, gasto, fallo y consumo</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Agentes autónomos<small>el edificio actúa por sí mismo sobre el OS</small></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c17">
+    <div class="in">
+      <div class="kn rv" style="color:var(--cyan)"><span class="dotd"></span>[ 17 ] · INFRAESTRUCTURA DE SERVICIO</div>
+      <h2 class="ti rv d1 tight">Cada activo,<br>una <span class="cy">infra·<wbr>estructura.</span></h2>
+      <p class="tx rv d2">La red de activos conectados a <b>CUEVA OS</b> se vuelve <b>infraestructura distribuida de servicio</b>. Cómputo, almacenamiento, conectividad, sensorización, energía, capa urbana del sistema. El activo deja de ser solo un consumidor — se vuelve <b>proveedor de servicio</b>. La ciudad alquila la capacidad sin construirla.</p>
+      <p class="tx rv d3">Ayuntamientos, operadores, ciudadanos: todos pueden enchufarse a la red CUEVA. <b>Servicio público desde el activo privado, pagado por uso</b>. El capex tradicional se vuelve opex contratado al sistema.</p>
+      <div class="cap cy rv d4">
+        <div class="it"><span class="n">▸</span><span class="b">Cómputo bajo demanda<small>cualquier operador contrata capacidad de la red distribuida</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Conectividad y sensórica<small>el activo da cobertura, mide, informa · API pública</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Servicios urbanos<small>movilidad, energía, datos abiertos del activo · pago por uso</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Capex → opex AAPP<small>la administración deja de construir infraestructura: la alquila</small></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c18">
+    <div class="in">
+      <div class="kn fut rv"><span class="dotg"></span>[ 18 ] · FUTURO · CRÉDITOS ENERGÉTICOS</div>
+      <h2 class="ti rv d1">El activo<br><span class="gr">cotiza.</span></h2>
+      <p class="tx rv d2">La energía que el activo evita, ahorra o genera se mide, se certifica y se <b>acuña como crédito energético</b> — vinculado al activo en la blockchain.</p>
+      <p class="tx rv d3">Cada kWh ahorrado, cada tonelada de CO₂ evitada, se convierte en un <b>activo verde</b> que cotiza solo, con trazabilidad inmutable. El edificio paga, también, por respirar limpio.</p>
+      <div class="ledger rv d4">
+        <div class="ld gh"><span class="k">CRÉDITO ENERGÉTICO</span><span class="v">ON-CHAIN</span></div>
+        <div class="ld gh"><span class="k">CO₂ EVITADO</span><span class="v">CERTIFICABLE</span></div>
+        <div class="ld gh"><span class="k">ACTIVO VERDE</span><span class="v">COTIZABLE</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c19">
+    <div class="in">
+      <div class="kn dig rv"><span class="dotd"></span>[ 19 ] · SERVICIOS CIUDADANOS · REALIDAD MIXTA</div>
+      <h2 class="ti rv d1">Se enchufa<br>a la <span class="cy">ciudad.</span></h2>
+      <p class="tx rv d2"><b>CUEVA OS</b> abre el activo al mundo: <b>stock municipal, servicios del ayuntamiento, tour turístico, contenido informativo abierto, capas de realidad mixta</b> ancladas al edificio. El activo deja de ser objeto privado y pasa a ser <b>nodo de servicio público</b>.</p>
+      <div class="tg dig rv d3">▸ EL ACTIVO, AL SERVICIO DE LA CIUDAD</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c20">
+    <div class="in">
+      <div class="kn dig rv"><span class="dotd"></span>[ 20 ] · MARKETPLACE</div>
+      <h2 class="ti rv d1">El activo<br>es <span class="cy">líquido.</span></h2>
+      <p class="tx rv d2">Componentes, proyectos, capacidad de licenciatarios, activos completos, modelos generativos de vivienda. Todo cotiza en el <b>marketplace</b> — el activo se compra, se vende, se reconfigura y se tokeniza. CUEVA cobra <b>fee por cada transacción</b>.</p>
+      <p class="tx rv d3">Es el <b>secondary market del sistema</b>: lo que CUEVA OS emite, el marketplace pone en circulación. Liquidez del activo construido. Liquidez del componente. Liquidez del diseño. Liquidez de la propia capacidad productiva.</p>
+      <div class="tg dig rv d4">▸ LIQUIDEZ DEL ACTIVO · FEE POR TX</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c21">
+    <div class="in">
+      <div class="kn both rv"><span class="dotf"></span><span class="dotd"></span>[ 21 ] · LA CIUDAD COMO SISTEMA</div>
+      <h2 class="ti rv d1">Muchos activos,<br>una <span class="cy">ciudad operativa.</span></h2>
+      <p class="tx rv d2">Cada activo no opera solo: opera <b>en red con todos los demás activos CUEVA del entorno</b>. Vivienda + calle + iPath + plaza + nave + equipamiento. Una mancomunidad digital se forma sobre el territorio físico.</p>
+      <p class="tx rv d3">Energía compartida entre activos vecinos. Cómputo balanceado en el barrio. Mantenimiento agrupado por zona. Servicios urbanos coordinados. <b>Lo que era un parque inmobiliario se vuelve un sistema operativo urbano</b>.</p>
+      <div class="cap cy rv d4">
+        <div class="it"><span class="n">▸</span><span class="b">Mancomunidad digital<small>varios activos cooperan como una sola entidad operativa</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Energía y cómputo P2P<small>el barrio se autogestiona · CUEVA arbitra</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Servicios agrupados<small>limpieza, seguridad, gobernanza · contratables por bloque</small></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="c22">
+    <div class="in">
+      <div class="kn both rv"><span class="dotf"></span><span class="dotd"></span>[ 22 ] · EL NUEVO REGISTRO</div>
+      <h2 class="ti rv d1">El sistema <span class="am">registra.</span><br>El catastro <span class="cy">se actualiza.</span></h2>
+      <p class="tx rv d2">Cada activo CUEVA tiene identidad on-chain, geometría exacta, historia completa y propiedad verificable. Es <b>la unidad mínima del registro</b> — más detallada, más actualizada y más confiable que cualquier catastro tradicional.</p>
+      <p class="tx rv d3">Cuando los organismos públicos estén preparados, CUEVA <b>les enchufa el dato</b>: alta automática, modificaciones trazables, propiedad transparente. La administración deja de mantener el registro — lo consume del sistema.</p>
+      <div class="tg rv d4">▸ CUEVA = EVOLUCIÓN DEL CATASTRO</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c22b">
+    <div class="in">
+      <div class="kn rv" style="color:var(--green)"><span class="dotg"></span>[ 23 ] · DAO · VIVIENDA PÚBLICA</div>
+      <h2 class="ti rv d1">El alquiler<br>que se <span class="gr">paga solo.</span></h2>
+      <p class="tx rv d2">Cada promoción pública construida bajo CUEVA OS levanta también su <b>DAO distribuida</b>: la mancomunidad digital de la propia promoción — cómputo, almacenamiento, energía, sensórica, servicios urbanos, datos. Esa DAO <b>genera ingresos recurrentes</b> a lo largo de la vida útil del activo.</p>
+      <p class="tx rv d3">La administración pública <b>se queda con la explotación de la DAO</b> de su parque construido. Los ingresos recurrentes que genera la DAO <b>compensan total o parcialmente el alquiler o el precio de compra</b> de la vivienda pública. La vivienda no es sólo un edificio: es un activo productivo que financia su propia accesibilidad.</p>
+      <div class="cap gr rv d4">
+        <div class="it"><span class="n">▸</span><span class="b">Capex público se vuelve activo productivo<small>cada promoción levantada genera caudal recurrente</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Alquiler social autofinanciado<small>la DAO compensa parte del coste mensual del inquilino</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Compra pública asequible<small>los ingresos de la DAO bajan el precio efectivo del activo</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Palanca regulatoria<small>una herramienta nueva para regular el precio del mercado de vivienda</small></span></div>
+      </div>
+      <div class="tg gr rv d5" style="margin-top:18px">▸ LA VIVIENDA QUE FINANCIA SU PROPIA ACCESIBILIDAD</div>
+    </div>
+  </section>
+
+  <section class="ch act" id="actV">
+    <div class="in">
+      <div class="actno rv">ACTO V</div>
+      <div class="actrom rv d1"><em>V</em></div>
+      <div class="acttitle rv d2">La <span class="rd">ventaja.</span></div>
+      <div class="actbar"></div>
+      <div class="actsub rv d3">Lo instalado · El foso · El sistema operativo</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c23">
+    <div class="in">
+      <div class="kn moat rv"><span class="dotr"></span>[ 24 ] · LA VENTAJA DE LO INSTALADO</div>
+      <h2 class="ti rv d1">Lo construido<br>es la <span class="rd">ventaja.</span></h2>
+      <p class="tx rv d2">Cada activo levantado bajo CUEVA es una piedra más en el muro. Acumula <b>datos</b>, ata <b>licenciatarios</b>, refuerza el <b>efecto red</b>, integra <b>infraestructura productiva</b>. Lo que se construye hoy bajo CUEVA <b>no se desinstala</b>.</p>
+      <p class="tx rv d3">Para igualar la base instalada, un competidor tendría que levantar de cero un parque entero — con su sistema operativo, sus licenciatarios, su flota robotizada, sus datos acumulados, su red de cómputo, su blockchain, sus 7 capas de monetización. <b>Imposible en plazo</b>. Y la pieza más difícil — el OS común que los pega — es la única que no se puede comprar.</p>
+      <div class="cap rd rv d4">
+        <div class="it"><span class="n">▸</span><span class="b">Coste de cambio<small>cada activo construido encadena décadas al sistema</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Datos acumulados<small>cada año, más memoria · menos posibilidad de replicar</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Efecto red<small>cada nodo nuevo hace más valiosa toda la red</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Infraestructura productiva<small>cómputo, sensórica, energía, OS · todo construido</small></span></div>
+      </div>
+      <div class="tg rd rv d5">▸ EL FOSO ES LA BASE INSTALADA</div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c24">
+    <div class="in">
+      <div class="kn moat rv"><span class="dotr"></span>[ 25 ] · EL EFECTO OS · STANDARD DE FACTO</div>
+      <h2 class="ti rv d1">El standard<br>se vuelve <span class="rd">irreversible.</span></h2>
+      <p class="tx rv d2">No es una empresa más en el sector. Es <b>el sistema operativo del sector</b>. Cuando los licenciatarios fabrican bajo CUEVA, cuando los ayuntamientos contratan iPath, cuando los robots se conectan a <b>CUEVA OS</b>, cuando la IA inferencia en el nodo, cuando la AAPP consume el registro — <b>todo el sector trabaja sobre CUEVA</b>.</p>
+      <p class="tx rv d3">Y lo que pasó con Windows en el PC, con Android en el móvil y con AWS en el cómputo, pasará con CUEVA en la construcción: <b>el standard del que ya no se sale</b>. Un competidor no necesita superarnos en una feature — necesita desbancar un sistema operativo entero.</p>
+      <div class="ledger rv d4">
+        <div class="ld rh"><span class="k">LICENCIATARIOS</span><span class="v">ENCADENADOS</span></div>
+        <div class="ld rh"><span class="k">AAPP</span><span class="v">DEPENDIENTES DEL DATO</span></div>
+        <div class="ld rh"><span class="k">ROBOTS</span><span class="v">LEEN CUEVA</span></div>
+        <div class="ld rh"><span class="k">IA</span><span class="v">CORRE EN CUEVA</span></div>
+        <div class="ld rh"><span class="k">REGISTRO</span><span class="v">ES CUEVA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch act" id="actVI">
+    <div class="in">
+      <div class="actno rv">ACTO VI</div>
+      <div class="actrom rv d1"><em>VI</em></div>
+      <div class="acttitle rv d2">La <span class="am">proyección.</span></div>
+      <div class="actbar"></div>
+      <div class="actsub rv d3">Capacidad ancla · Licenciatarios · Internacional · Valor</div>
+    </div>
+  </section>
+
+  <section class="ch" id="c25">
+    <div class="in">
+      <div class="kn rv" style="color:var(--gold)"><span class="doto"></span>[ 26 ] · LAS CAPACIDADES DEL MODELO</div>
+      <h2 class="ti rv d1">El modelo<br>no <span class="gd">construye fábricas.</span></h2>
+      <p class="tx rv d2">CUEVA no es una constructora. <b>No invierte capex en cada planta. No paga obra propia en cada país. No se ata a tecnología propietaria de un solo fabricante.</b> El sistema operativo es lo que se replica: las fábricas son licenciatarios, los ayuntamientos son clientes, los robots son ejecutores. Lo que viaja es CUEVA OS — no la obra.</p>
+      <p class="tx rv d3">Cualquier capacidad productiva ya construida puede entrar bajo el sistema y empezar a emitir activos. <b>Asset-light por diseño</b>: el modelo escala con la red de licenciatarios, no con la cuenta de capex de CUEVA. Y cada nuevo licenciatario activa simultáneamente las 7 capas — royalty, diseño, hardware, servicios, red, marketplace y gobernanza.</p>
+      <div class="ledger rv d4">
+        <div class="ld"><span class="k">CAPEX EN FÁBRICAS</span><span class="v">CERO</span></div>
+        <div class="ld"><span class="k">CAPEX POR PAÍS</span><span class="v">CERO</span></div>
+        <div class="ld"><span class="k">REPLICABILIDAD</span><span class="v">LICENCIA + ALTA</span></div>
+        <div class="ld"><span class="k">DEPENDENCIA DE 1 ACTOR</span><span class="v">NULA</span></div>
+        <div class="ld"><span class="k">ACTIVACIÓN DE CAPAS</span><span class="v">AUTOMÁTICA · 1ª UNIDAD</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch right" id="c26">
+    <div class="in">
+      <div class="kn rv" style="color:var(--green)"><span class="dotg"></span>[ 27 ] · INTERNACIONAL · SALIDA POR PLATAFORMA</div>
+      <h2 class="ti rv d1">El producto<br>ya está <span class="gr">listo.</span></h2>
+      <p class="tx rv d2">El sistema operativo es <b>software, neuronas y royalty</b> — no obra física en cada país. Eso lo vuelve <b>internacionalmente escalable desde el día uno</b>. En cada nueva geografía, el modelo no exige levantar planta ni desplegar equipo propio: exige <b>identificar capacidad local, firmar licenciatario y darlo de alta en el sistema</b>. La red consolida país a país sin que CUEVA invierta capex en ninguno.</p>
+      <p class="tx rv d3">Lo que en el mundo físico exige fábricas, plantilla y plazos largos, en CUEVA exige <b>firmar el licenciatario y dar de alta su capacidad en el sistema</b>. <b>Asset-light por diseño</b>.</p>
+      <div class="cap gr rv d4">
+        <div class="it"><span class="n">▸</span><span class="b">Modelo licenciable<small>cualquier fabricante del mundo puede entrar bajo CUEVA</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Sin obra propia<small>CUEVA emite royalty, no construye en cada país</small></span></div>
+        <div class="it"><span class="n">▸</span><span class="b">Producto homologable<small>neuronas + designer + DPP + blockchain · trasladables</small></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch center" id="c27">
+    <div class="in">
+      <div class="kn rv" style="color:var(--coral)"><span class="dotf"></span>[ 28 ] · EL VALOR DEL PROYECTO</div>
+      <h2 class="ti rv d1">No se mide en software.<br>Se mide en <span class="am">infraestructura.</span></h2>
+      <p class="tx rv d2" style="max-width:780px;margin:0 auto">CUEVA no se valora como una plataforma SaaS, ni como una constructora, ni como una proptech. Se valora como <b>la infraestructura común</b> que va a operar la mayor industria del planeta. Cada activo construido, cada nodo en red, cada licenciatario integrado, cada ayuntamiento conectado <b>multiplica el valor del proyecto</b>.</p>
+      <p class="tx rv d3" style="max-width:780px;margin:14px auto 0">El plan no consiste en optimizar márgenes. Consiste en <b>convertir el sistema operativo en standard antes que nadie lo intente</b>. Lo demás —emisión de m², 7 capas, robotización, IA, créditos, registro— viene solo, encima de la base instalada.</p>
+      <div class="ledger rv d4" style="margin:30px auto 0">
+        <div class="ld hot"><span class="k">UNIDAD DE VALOR</span><span class="v">m² EMITIDO + NODO + RED</span></div>
+        <div class="ld hot"><span class="k">CRECIMIENTO</span><span class="v">EFECTO RED COMPUESTO</span></div>
+        <div class="ld hot"><span class="k">FOSO</span><span class="v">SISTEMA OPERATIVO</span></div>
+        <div class="ld hot"><span class="k">HORIZONTE</span><span class="v">DÉCADAS · NO TRIMESTRES</span></div>
+      </div>
+      <div class="tg rv d5" style="margin-top:26px">▸ INFRAESTRUCTURA DE LA INDUSTRIA</div>
+    </div>
+  </section>
+
+  <section class="ch center" id="final">
+    <div class="in">
+      <div class="kn both rv"><span class="dotf"></span><span class="dotd"></span>[ 29 ] · EL SISTEMA OPERATIVO</div>
+      <h2 class="ti rv d1">Si no está en <span class="cy">CUEVA OS,</span><br><span class="am">no existe.</span></h2>
+      <p class="tx rv d2" style="max-width:780px;margin:0 auto">Cada activo construido bajo <b>CUEVA OS</b> es un punto del mapa: cuerpo físico, capa de datos, nodo de red, DAO urbana, registro en cadena. Juntos forman la infraestructura distribuida que coordina <b>diseño, fabricación, robótica, datos, cómputo, IA, energía, registro y gobernanza</b>. Cada nodo nuevo hace más valiosa a toda la red.</p>
+      <p class="tx rv d3" style="max-width:780px;margin:14px auto 0">No es un software. No es una constructora. No es una plataforma. No es una proptech. No es un gemelo digital. <b>Es el sistema operativo entero</b> sobre el que se va a operar la mayor industria del planeta.</p>
+      <div class="sello rv d4">
+        <span class="line"></span>
+        <span><b>CUEVA · OS</b> · ACTIVO + SISTEMA + NODO + RED</span>
+        <span class="line"></span>
+        <span style="margin-top:6px;color:var(--electric)">EL SISTEMA OPERATIVO DE LA CONSTRUCCIÓN</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+const loader=document.getElementById('loader');
+const NCH=36;
+const ACTS=new Set([1,5,12,17,28,31]);
+const LABELS=['HERO','· ACTO I ·','EL PROBLEMA','LA TESIS','EL ACTIVO','· ACTO II ·','GEMELO · 1 PIEZA','IMPLEMENTACIÓN · FAB','ESTRUCTURA','MÓDULOS','ENVOLVENTE','INFRAESTRUCTURA','· ACTO III ·','7 CAPAS','NEURONAS','HARDWARE · ON/OFF','CARPETA MADRE','· ACTO IV ·','EL ACTIVO VIVO','NODOS · CÓMPUTO','IA EN EL ACTIVO','INFRA · SERVICIO','CRÉDITOS ENERGÉTICOS','SERVICIOS · CIUDAD','MARKETPLACE','CIUDAD OPERATIVA','EL NUEVO REGISTRO','DAO · VIVIENDA','· ACTO V ·','VENTAJA INSTALADA','EFECTO OS','· ACTO VI ·','CAPACIDADES MODELO','INTERNACIONAL','VALOR DEL PROYECTO','CUEVA OS'];
+const rail=document.getElementById('rail');
+for(let i=0;i<NCH;i++){const d=document.createElement('div');d.className='pd'+(ACTS.has(i)?' act':'');d.dataset.i=i;rail.appendChild(d);}
+const dots=[...rail.children];
+const bNow=document.getElementById('bNow'),bPct=document.getElementById('bPct'),topbar=document.getElementById('topbar');
+const flash=document.getElementById('flash');
+function revealAll(){document.querySelectorAll('.rv').forEach(el=>el.classList.add('in'));}
+if(typeof THREE==='undefined'){loader.classList.add('gone');revealAll();return;}
+
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const TAU=Math.PI*2,rnd=Math.random;
+
+const host=document.getElementById('scene');
+const scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(0x070609,0.012);
+(function(){
+  const c=document.createElement('canvas');c.width=16;c.height=320;
+  const x=c.getContext('2d');const g=x.createLinearGradient(0,0,0,320);
+  g.addColorStop(0,'#0e0c16');g.addColorStop(.5,'#090810');g.addColorStop(1,'#040306');
+  x.fillStyle=g;x.fillRect(0,0,16,320);scene.background=new THREE.CanvasTexture(c);
+})();
+const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,500);
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.outputEncoding=THREE.sRGBEncoding;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+host.appendChild(renderer.domElement);
+
+try{
+  const eq=document.createElement('canvas');eq.width=512;eq.height=256;
+  const ex=eq.getContext('2d');const eg=ex.createLinearGradient(0,0,0,256);
+  eg.addColorStop(0,'#272b3a');eg.addColorStop(.5,'#101218');eg.addColorStop(.64,'#2c1d14');eg.addColorStop(1,'#070608');
+  ex.fillStyle=eg;ex.fillRect(0,0,512,256);
+  const sg=ex.createRadialGradient(150,82,0,150,82,140);
+  sg.addColorStop(0,'rgba(255,208,160,.85)');sg.addColorStop(1,'rgba(255,208,160,0)');
+  ex.fillStyle=sg;ex.fillRect(0,0,330,230);
+  const t=new THREE.CanvasTexture(eq);t.mapping=THREE.EquirectangularReflectionMapping;
+  const pm=new THREE.PMREMGenerator(renderer);pm.compileEquirectangularShader();
+  scene.environment=pm.fromEquirectangular(t).texture;t.dispose();
+}catch(e){}
+
+scene.add(new THREE.AmbientLight(0x2a2832,0.5));
+const keyL=new THREE.DirectionalLight(0xffe2c4,2.4);
+keyL.position.set(18,28,16);keyL.castShadow=true;
+keyL.shadow.mapSize.set(2048,2048);
+keyL.shadow.camera.near=2;keyL.shadow.camera.far=110;
+keyL.shadow.camera.left=-34;keyL.shadow.camera.right=34;keyL.shadow.camera.top=44;keyL.shadow.camera.bottom=-10;
+keyL.shadow.bias=-0.0008;scene.add(keyL);
+const rimL=new THREE.DirectionalLight(0x3f72ac,1.2);rimL.position.set(-22,12,-18);scene.add(rimL);
+const fillL=new THREE.DirectionalLight(0x44404e,0.55);fillL.position.set(0,-10,12);scene.add(fillL);
+const digL=new THREE.PointLight(0x00D4AA,0,60);scene.add(digL);
+const ambL=new THREE.PointLight(0xFF6B4A,0,60);scene.add(ambL);
+const grnL=new THREE.PointLight(0x00D4AA,0,60);scene.add(grnL);
+const vioL=new THREE.PointLight(0x0EA5E9,0,60);scene.add(vioL);
+const goldL=new THREE.PointLight(0xF59E0B,0,60);scene.add(goldL);
+const redL=new THREE.PointLight(0xFF6B4A,0,80);scene.add(redL);
+
+/* CUEVA Brandbook palette mapped into Three.js color constants */
+const C_AMBER=0xE84F30,C_AMBERH=0xFF6B4A,C_BLUE=0x0EA5E9,C_CYAN=0x00D4AA,C_GOLD=0xF59E0B,C_GREEN=0x00D4AA,C_VIOLET=0x0EA5E9,C_RED=0xFF6B4A;
+
+function cvtex(w,h,d){const c=document.createElement('canvas');c.width=w;c.height=h;d(c.getContext('2d'),w,h);
+  const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;return t;}
+const FACtex=cvtex(128,128,(x,w,h)=>{
+  x.fillStyle='#3a3f47';x.fillRect(0,0,w,h);
+  for(let i=0;i<900;i++){const v=Math.random()*20-10;
+    x.fillStyle='rgba('+(56+v)+','+(62+v)+','+(70+v)+',.5)';x.fillRect(Math.random()*w,Math.random()*h,2,2);}});
+const WINtex=cvtex(128,128,(x,w,h)=>{
+  x.fillStyle='#06080b';x.fillRect(0,0,w,h);
+  const c=3,r=3,p=10,ww=(w-p*(c+1))/c,wh=(h-p*(r+1))/r;
+  for(let ry=0;ry<r;ry++)for(let cx=0;cx<c;cx++){
+    const v=Math.random();x.fillStyle=v>.55?'#FFCB86':(v>.32?'#86B6EA':'#0c1014');
+    x.fillRect(p+cx*(ww+p),p+ry*(wh+p),ww,wh);}});
+const CHIPtex=cvtex(256,256,(x,w,h)=>{
+  x.fillStyle='#06121a';x.fillRect(0,0,w,h);
+  x.strokeStyle='#1f6f7e';x.lineWidth=2;
+  for(let i=0;i<46;i++){x.beginPath();let px=Math.random()*w,py=Math.random()*h;x.moveTo(px,py);
+    for(let s=0;s<4;s++){if(Math.random()<.5)px+=(Math.random()-.5)*70;else py+=(Math.random()-.5)*70;x.lineTo(px,py);}x.stroke();}
+  x.fillStyle='#00D4AA';for(let i=0;i<70;i++)x.fillRect(Math.random()*w,Math.random()*h,4,4);});
+function glow(hex,s,op){
+  const r=(hex>>16)&255,g=(hex>>8)&255,b=hex&255;
+  const c=document.createElement('canvas');c.width=c.height=128;
+  const x=c.getContext('2d');const gr=x.createRadialGradient(64,64,0,64,64,64);
+  gr.addColorStop(0,'rgba('+r+','+g+','+b+',.92)');gr.addColorStop(.4,'rgba('+r+','+g+','+b+',.28)');
+  gr.addColorStop(1,'rgba('+r+','+g+','+b+',0)');x.fillStyle=gr;x.fillRect(0,0,128,128);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),
+    blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,opacity:op||0}));
+  sp.scale.set(s,s,1);return sp;
+}
+
+const ground=new THREE.Mesh(new THREE.CircleGeometry(180,72),
+  new THREE.MeshStandardMaterial({color:0x0b0a12,roughness:.74,metalness:.22}));
+ground.rotation.x=-Math.PI/2;ground.position.y=-0.02;ground.receiveShadow=true;scene.add(ground);
+(function(){
+  const pts=[],S=130,st=5;
+  for(let i=-S;i<=S;i+=st){pts.push(-S,0,i,S,0,i,i,0,-S,i,0,S);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pts),3));
+  const gr=new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:0x221f2c,transparent:true,opacity:.5}));
+  gr.position.y=0.01;scene.add(gr);
+})();
+
+const FX=-9.5,DX=9.5,BW=7,FLOORS=9,FH=2.7,BH=FLOORS*FH;
+const parts=[];
+function reg(mesh,appear){mesh.userData.rt=0;mesh.material.transparent=true;parts.push({mesh,appear});return mesh;}
+
+/* ===== OS CORE (sistema central · brilla en hero y actos) ===== */
+const osCore=new THREE.Group();osCore.position.set(0,11,0);scene.add(osCore);
+const osInner=new THREE.Mesh(new THREE.IcosahedronGeometry(1.5,2),
+  new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_AMBERH,emissiveIntensity:2.4,roughness:.25,metalness:.5,transparent:true,opacity:0}));
+osCore.add(osInner);
+const osCage=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(2.6,1)),
+  new THREE.LineBasicMaterial({color:C_AMBERH,transparent:true,opacity:0}));
+osCore.add(osCage);
+const osRing=new THREE.Mesh(new THREE.TorusGeometry(3.4,0.08,12,80),
+  new THREE.MeshBasicMaterial({color:C_AMBERH,transparent:true,opacity:0}));
+osRing.rotation.x=Math.PI/2;osCore.add(osRing);
+const osGlow=glow(C_AMBERH,14,0);osCore.add(osGlow);
+
+/* ===== FÍSICO ===== */
+const fisico=new THREE.Group();fisico.position.x=FX;scene.add(fisico);
+const found=new THREE.Mesh(new THREE.BoxGeometry(BW+3,1.4,BW+3),
+  new THREE.MeshStandardMaterial({color:0x26242c,roughness:.9,metalness:.1}));
+found.position.y=0.6;found.castShadow=true;found.receiveShadow=true;fisico.add(reg(found,3.4));
+[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(c=>{
+  const col=new THREE.Mesh(new THREE.BoxGeometry(0.62,BH,0.62),
+    new THREE.MeshStandardMaterial({color:0x4a4f57,roughness:.55,metalness:.4,envMapIntensity:1.1}));
+  col.position.set(c[0]*(BW/2),1.3+BH/2,c[1]*(BW/2));col.castShadow=true;
+  fisico.add(reg(col,8));
+});
+for(let f=0;f<=FLOORS;f++){
+  const sl=new THREE.Mesh(new THREE.BoxGeometry(BW+0.7,0.32,BW+0.7),
+    new THREE.MeshStandardMaterial({color:0x55585f,roughness:.6,metalness:.3,envMapIntensity:1}));
+  sl.position.y=1.3+f*FH;sl.castShadow=true;sl.receiveShadow=true;
+  reg(sl,8+f*0.07);fisico.add(sl);
+}
+for(let f=0;f<FLOORS;f++){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(BW-1,FH-0.55,BW-1),
+    new THREE.MeshStandardMaterial({color:0x636872,roughness:.5,metalness:.28,envMapIntensity:1}));
+  m.position.y=1.3+f*FH+FH/2;m.castShadow=true;m.receiveShadow=true;
+  reg(m,9+f*0.07);fisico.add(m);
+}
+for(let f=0;f<FLOORS;f++){
+  [[0,1],[0,-1],[1,0],[-1,0]].forEach(s=>{
+    const horiz=s[0]!==0;
+    const geo=horiz?new THREE.BoxGeometry(0.2,FH-0.18,BW+0.2):new THREE.BoxGeometry(BW+0.2,FH-0.18,0.2);
+    const pan=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({map:FACtex,emissiveMap:WINtex,emissive:0xffffff,
+      emissiveIntensity:0.4,color:0x9298a2,roughness:.42,metalness:.34,envMapIntensity:1.2}));
+    pan.position.set(s[0]*(BW/2+0.18),1.3+f*FH+FH/2,s[1]*(BW/2+0.18));
+    pan.castShadow=true;reg(pan,10+f*0.06);fisico.add(pan);
+  });
+}
+const roof=new THREE.Mesh(new THREE.BoxGeometry(BW+1.4,0.6,BW+1.4),
+  new THREE.MeshStandardMaterial({color:0x44474e,roughness:.55,metalness:.35}));
+roof.position.y=1.3+BH+0.3;roof.castShadow=true;fisico.add(reg(roof,10.6));
+const platform=new THREE.Mesh(new THREE.BoxGeometry(BW+12,0.4,BW+9),
+  new THREE.MeshStandardMaterial({color:0x2a2832,roughness:.7,metalness:.2}));
+platform.position.set(2,0.05,0);platform.receiveShadow=true;fisico.add(reg(platform,11));
+for(let i=0;i<7;i++){
+  const h=1.5+rnd()*5;
+  const b=new THREE.Mesh(new THREE.BoxGeometry(1.6+rnd()*2,h,1.6+rnd()*2),
+    new THREE.MeshStandardMaterial({map:FACtex,emissiveMap:WINtex,emissive:0xffffff,emissiveIntensity:0.3,
+      color:0x5a5f68,roughness:.55,metalness:.25}));
+  const a=rnd()*TAU,r=8+rnd()*6;
+  b.position.set(2+Math.cos(a)*r,h/2,Math.sin(a)*r);b.castShadow=true;b.receiveShadow=true;
+  reg(b,11+i*0.05);fisico.add(b);
+}
+(function(){
+  const g=new THREE.Group();
+  const post=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.16,5,8),
+    new THREE.MeshStandardMaterial({color:0x3d4248,roughness:.5,metalness:.6}));
+  post.position.y=2.5;g.add(post);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.34,16,16),
+    new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_AMBERH,emissiveIntensity:2.2}));
+  head.position.y=5;g.add(head);
+  g.position.set(9,0,5);post.userData.rt=0;head.userData.rt=0;
+  post.material.transparent=head.material.transparent=true;
+  parts.push({mesh:post,appear:11.2});parts.push({mesh:head,appear:11.2});
+  fisico.add(g);
+})();
+
+/* ===== GEMELO ===== */
+const digital=new THREE.Group();digital.position.x=DX;scene.add(digital);
+const twinWire=[];
+for(let f=0;f<FLOORS;f++){
+  const w=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(BW+0.3,FH,BW+0.3)),
+    new THREE.LineBasicMaterial({color:C_CYAN,transparent:true,opacity:0}));
+  w.position.y=1.3+f*FH+FH/2;w.userData.rt=0;
+  parts.push({mesh:w,appear:6+f*0.08,_wire:true});digital.add(w);twinWire.push(w);
+}
+const twinNodes=[];
+for(let f=0;f<=FLOORS;f++){
+  [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(c=>{
+    const nd=new THREE.Mesh(new THREE.SphereGeometry(0.15,12,12),
+      new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_CYAN,emissiveIntensity:1.8,transparent:true,opacity:0}));
+    nd.position.set(c[0]*(BW/2+0.15),1.3+f*FH,c[1]*(BW/2+0.15));nd.userData.rt=0;
+    parts.push({mesh:nd,appear:6.2+f*0.06});digital.add(nd);twinNodes.push(nd);
+  });
+}
+const twinBase=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(BW+0.3,1.4,BW+0.3)),
+  new THREE.LineBasicMaterial({color:C_CYAN,transparent:true,opacity:0}));
+twinBase.position.y=0.7;twinBase.userData.rt=0;
+parts.push({mesh:twinBase,appear:6,_wire:true});digital.add(twinBase);
+
+const linkG=new THREE.Group();scene.add(linkG);
+const linkPulses=[];
+for(let i=0;i<8;i++){
+  const p=new THREE.Mesh(new THREE.SphereGeometry(0.2,10,10),new THREE.MeshBasicMaterial({color:C_CYAN}));
+  p.userData={t:i/8};linkG.add(p);linkPulses.push(p);
+}
+const linkLine=new THREE.Line(
+  new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(FX,7,0),new THREE.Vector3(DX,7,0)]),
+  new THREE.LineBasicMaterial({color:C_CYAN,transparent:true,opacity:0}));
+linkG.add(linkLine);
+
+/* ===== ROBOTS ===== */
+const robotG=new THREE.Group();robotG.position.x=FX;scene.add(robotG);
+const robots=[];
+for(let i=0;i<6;i++){
+  const g=new THREE.Group();
+  const base=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.55,0.6,8),
+    new THREE.MeshStandardMaterial({color:0x3a3d44,roughness:.4,metalness:.7,transparent:true,opacity:0}));
+  base.position.y=0.3;g.add(base);
+  const arm1=new THREE.Mesh(new THREE.BoxGeometry(0.32,2,0.32),
+    new THREE.MeshStandardMaterial({color:0xF59E0B,emissive:0x8a5d10,emissiveIntensity:0.4,roughness:.4,metalness:.6,transparent:true,opacity:0}));
+  arm1.position.y=1.6;g.add(arm1);
+  const arm2=new THREE.Mesh(new THREE.BoxGeometry(0.28,1.7,0.28),
+    new THREE.MeshStandardMaterial({color:0xF59E0B,emissive:0x8a5d10,emissiveIntensity:0.4,roughness:.4,metalness:.6,transparent:true,opacity:0}));
+  arm2.position.set(0,1.85,0);
+  const armPivot=new THREE.Group();armPivot.position.y=2.6;armPivot.add(arm2);g.add(armPivot);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.26,16,16),
+    new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_AMBERH,emissiveIntensity:2.4,transparent:true,opacity:0}));
+  head.position.set(0,1.7,0);armPivot.add(head);
+  const a=i/6*TAU,r=9.5+Math.sin(i)*0.5;
+  g.position.set(Math.cos(a)*r,0,Math.sin(a)*r);
+  g.lookAt(0,1,0);
+  g.userData={armPivot,phase:rnd()*TAU,castParts:[base,arm1,arm2,head]};
+  base.castShadow=arm1.castShadow=arm2.castShadow=head.castShadow=true;
+  robotG.add(g);robots.push(g);
+}
+
+/* ===== 7 CAPAS ===== */
+const bizG=new THREE.Group();bizG.position.set(DX,0,0);scene.add(bizG);
+const bizRings=[];
+const bizCols=[0xFF6B4A,0xE84F30,0xF59E0B,0xF0B85A,0x00D4AA,0x0EA5E9,0x1B2951];
+for(let i=0;i<7;i++){const col=bizCols[i];
+  const tor=new THREE.Mesh(new THREE.TorusGeometry(6.4+i*0.05,0.12,12,90),
+    new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:0.5,roughness:.35,metalness:.5,transparent:true,opacity:0}));
+  tor.rotation.x=Math.PI/2;tor.position.y=2.8+i*2.7;
+  tor.userData={base:2.8+i*2.7};bizG.add(tor);bizRings.push(tor);
+}
+
+const neuG=new THREE.Group();neuG.position.set(DX,0,0);scene.add(neuG);
+const neurons=[];
+for(let i=0;i<40;i++){
+  const a=rnd()*TAU,ph=Math.acos(2*rnd()-1),r=5+rnd()*4.5;
+  const n=new THREE.Mesh(new THREE.SphereGeometry(0.22,14,14),
+    new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_CYAN,emissiveIntensity:1.5,transparent:true,opacity:0}));
+  n.position.set(Math.sin(ph)*Math.cos(a)*r,BH/2+Math.cos(ph)*r*0.8,Math.sin(ph)*Math.sin(a)*r);
+  n.userData={ph:rnd()*TAU};neuG.add(n);neurons.push(n);
+}
+const neuLines=(function(){
+  const lp=[];
+  for(let i=0;i<neurons.length;i++)for(let j=i+1;j<neurons.length;j++){
+    if(neurons[i].position.distanceTo(neurons[j].position)<4.4&&rnd()<0.3){
+      const a=neurons[i].position,b=neurons[j].position;lp.push(a.x,a.y,a.z,b.x,b.y,b.z);}}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(lp),3));
+  const l=new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:C_CYAN,transparent:true,opacity:0}));
+  neuG.add(l);return l;
+})();
+
+const chipG=new THREE.Group();chipG.position.set(DX,0,0);scene.add(chipG);
+const chips=[];
+for(let i=0;i<5;i++){
+  const ch=new THREE.Mesh(new THREE.PlaneGeometry(5.5,5.5),
+    new THREE.MeshStandardMaterial({map:CHIPtex,emissive:C_CYAN,emissiveIntensity:0.4,emissiveMap:CHIPtex,
+      color:0x8aa0aa,roughness:.5,metalness:.4,transparent:true,opacity:0,side:THREE.DoubleSide}));
+  ch.position.y=4+i*4;ch.rotation.x=-Math.PI/2;ch.rotation.z=i*0.5;
+  ch.userData={base:4+i*4};chipG.add(ch);chips.push(ch);
+}
+
+const cmG=new THREE.Group();cmG.position.set(DX,0,0);scene.add(cmG);
+const cmLayers=[];
+for(let i=0;i<13;i++){
+  const sub=i>=8;const col=sub?C_GOLD:C_CYAN;const r=7.4-i*0.06;
+  const tor=new THREE.Mesh(new THREE.TorusGeometry(r,0.05,8,80),
+    new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:0.6,roughness:.4,metalness:.4,transparent:true,opacity:0}));
+  tor.rotation.x=Math.PI/2;tor.position.y=2+i*1.65;
+  tor.userData={base:2+i*1.65,col};cmG.add(tor);cmLayers.push(tor);
+}
+
+const nodeG=new THREE.Group();nodeG.position.set(DX,0,0);scene.add(nodeG);
+const cgeo=new THREE.BoxGeometry(0.42,0.42,0.42);
+const cmat=new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_CYAN,emissiveIntensity:0.9,roughness:.35,metalness:.4,transparent:true,opacity:0});
+const nodeCount=180;
+const nodes=new THREE.InstancedMesh(cgeo,cmat,nodeCount);nodeG.add(nodes);
+const nodeData=[];
+for(let i=0;i<nodeCount;i++){
+  const a=rnd()*TAU,ph=Math.acos(2*rnd()-1),r=5.6+rnd()*4.6;
+  nodeData.push({x:Math.sin(ph)*Math.cos(a)*r,y:BH/2+Math.cos(ph)*r*0.85,z:Math.sin(ph)*Math.sin(a)*r,
+    ph:rnd()*TAU,sp:0.3+rnd()*0.6});
+}
+const _nm=new THREE.Matrix4(),_nv=new THREE.Vector3(),_nq=new THREE.Quaternion(),_ne=new THREE.Euler(),_ns=new THREE.Vector3(1,1,1);
+
+const iaG=new THREE.Group();iaG.position.set(DX,BH/2+2,0);scene.add(iaG);
+const iaCore=new THREE.Mesh(new THREE.IcosahedronGeometry(2.2,2),
+  new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_VIOLET,emissiveIntensity:1.8,roughness:.25,metalness:.4,transparent:true,opacity:0}));
+iaG.add(iaCore);
+const iaCage=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(3.2,1)),
+  new THREE.LineBasicMaterial({color:C_VIOLET,transparent:true,opacity:0}));
+iaG.add(iaCage);
+const iaGlow=glow(C_VIOLET,11,0);iaG.add(iaGlow);
+const iaSyn=[];
+for(let i=0;i<14;i++){
+  const a1=rnd()*TAU,p1=Math.acos(2*rnd()-1),a2=rnd()*TAU,p2=Math.acos(2*rnd()-1);const r=3.2;
+  const pts=[new THREE.Vector3(Math.sin(p1)*Math.cos(a1)*r,Math.sin(p1)*Math.sin(a1)*r,Math.cos(p1)*r),
+    new THREE.Vector3(Math.sin(p2)*Math.cos(a2)*r,Math.sin(p2)*Math.sin(a2)*r,Math.cos(p2)*r)];
+  const g=new THREE.BufferGeometry().setFromPoints(pts);
+  const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:C_VIOLET,transparent:true,opacity:0}));
+  l.userData={ph:rnd()*TAU};iaG.add(l);iaSyn.push(l);
+}
+
+const credG=new THREE.Group();credG.position.set(DX,0,0);scene.add(credG);
+const credTokens=[];
+for(let i=0;i<14;i++){
+  const tok=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.18,6),
+    new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_GREEN,emissiveIntensity:1.6,roughness:.32,metalness:.5,transparent:true,opacity:0}));
+  tok.userData={r:6.2+(i%3)*0.7,a:i/14*TAU,y:3+(i%5)*3,ph:rnd()*TAU};
+  credG.add(tok);credTokens.push(tok);
+}
+const chainG=new THREE.Group();credG.add(chainG);
+const chainBlocks=[];
+for(let i=0;i<22;i++){
+  const b=new THREE.Mesh(new THREE.BoxGeometry(0.46,0.46,0.46),
+    new THREE.MeshStandardMaterial({color:0xffffff,emissive:C_GREEN,emissiveIntensity:1.2,roughness:.4,metalness:.5,transparent:true,opacity:0}));
+  b.position.set((i-11)*0.85,1.4,8);b.userData={i};chainG.add(b);chainBlocks.push(b);
+}
+const chainLine=new THREE.Line(
+  (function(){const lp=[];for(let i=-11;i<=10;i++)lp.push(i*0.85,1.4,8,(i+1)*0.85,1.4,8);
+   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(lp),3));return g;})(),
+  new THREE.LineBasicMaterial({color:C_GREEN,transparent:true,opacity:0}));
+credG.add(chainLine);
+
+const beamG=new THREE.Group();beamG.position.set(DX,BH/2,0);scene.add(beamG);
+const beams=[];
+for(let i=0;i<14;i++){
+  const a=i/14*TAU,len=14+rnd()*10;
+  const dir=new THREE.Vector3(Math.cos(a),(rnd()-.5)*0.7,Math.sin(a)).normalize();
+  const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),dir.clone().multiplyScalar(len)]);
+  const ln=new THREE.Line(g,new THREE.LineBasicMaterial({color:C_CYAN,transparent:true,opacity:0}));
+  beamG.add(ln);
+  const tip=new THREE.Mesh(new THREE.SphereGeometry(0.32,10,10),new THREE.MeshBasicMaterial({color:C_CYAN}));
+  tip.userData={dir,len};beamG.add(tip);
+  beams.push({ln,tip});
+}
+
+const streams=[];
+[FX,DX].forEach((bx,bi)=>{
+  for(let i=0;i<26;i++){
+    const m=new THREE.Mesh(new THREE.BoxGeometry(0.22,0.22,0.22),
+      new THREE.MeshBasicMaterial({color:bi?C_CYAN:C_AMBERH}));
+    const a=rnd()*TAU;
+    m.userData={bx,a,r:BW/2+0.5,t:rnd(),sp:0.12+rnd()*0.2};
+    scene.add(m);streams.push(m);
+  }
+});
+
+const SW=560;
+const swGeo=new THREE.BoxGeometry(0.5,0.5,0.5);
+const swMat=new THREE.MeshStandardMaterial({color:0x8a8f99,roughness:.5,metalness:.4,envMapIntensity:1.1});
+const swarm=new THREE.InstancedMesh(swGeo,swMat,SW);
+swarm.instanceMatrix.setUsage(THREE.DynamicDrawUsage);scene.add(swarm);
+const swScatter=new Float32Array(SW*3),swTarget=new Float32Array(SW*3),swCur=new Float32Array(SW*3);
+const swSeed=new Float32Array(SW);
+const side=Math.ceil(Math.cbrt(SW));
+for(let i=0;i<SW;i++){
+  swSeed[i]=rnd()*TAU;
+  const a=rnd()*TAU,ph=Math.acos(2*rnd()-1),r=18+rnd()*30;
+  swScatter[i*3]=FX+Math.sin(ph)*Math.cos(a)*r;
+  swScatter[i*3+1]=14+Math.cos(ph)*r*0.7;
+  swScatter[i*3+2]=Math.sin(ph)*Math.sin(a)*r;
+  const gx=i%side,gy=(Math.floor(i/side))%side,gz=Math.floor(i/(side*side));
+  swTarget[i*3]=FX+(gx-side/2+.5)*0.92;
+  swTarget[i*3+1]=2.2+(gy)*0.92;
+  swTarget[i*3+2]=(gz-side/2+.5)*0.92;
+  swCur[i*3]=swScatter[i*3];swCur[i*3+1]=swScatter[i*3+1];swCur[i*3+2]=swScatter[i*3+2];
+}
+const swColObj=new THREE.Color();
+for(let i=0;i<SW;i++){const r=rnd();swColObj.setHex(r<0.2?0xFF6B4A:(r<0.34?0x1B2951:0x475569));swarm.setColorAt(i,swColObj);}
+swarm.instanceColor.needsUpdate=true;
+
+const netG=new THREE.Group();netG.visible=false;scene.add(netG);
+(function(){
+  const lp=[];
+  for(let i=0;i<70;i++){
+    const a=rnd()*TAU,r=28+rnd()*70,y=2+rnd()*26;
+    const x=Math.cos(a)*r,z=Math.sin(a)*r;
+    const pair=new THREE.Group();pair.position.set(x,0,z);
+    const fm=new THREE.Mesh(new THREE.BoxGeometry(2.2,y,2.2),
+      new THREE.MeshStandardMaterial({color:0x4a4f58,emissive:C_AMBER,emissiveIntensity:0.3,roughness:.5,metalness:.3,transparent:true,opacity:1}));
+    fm.position.y=y/2;fm.castShadow=true;pair.add(fm);
+    const dg=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(2.4,y,2.4)),
+      new THREE.LineBasicMaterial({color:C_CYAN,transparent:true,opacity:.6}));
+    dg.position.set(3,y/2,0);pair.add(dg);
+    netG.add(pair);
+    lp.push(x,y/2,z,0,9,0);
+  }
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(lp),3));
+  const l=new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:C_AMBERH,transparent:true,opacity:0}));
+  l.name='netLines';netG.add(l);
+})();
+
+const atmo=new THREE.Group();scene.add(atmo);
+[[C_AMBER,46,.13,FX],[C_CYAN,46,.13,DX],[C_VIOLET,38,0,DX],[C_GREEN,38,0,DX],[C_GOLD,42,0,FX],[C_RED,50,0,0]].forEach(d=>{
+  const sp=glow(d[0],d[1],d[2]);sp.position.set(d[3],11,-12);atmo.add(sp);
+});
+(function(){
+  const n=700,pos=new Float32Array(n*3);
+  for(let i=0;i<n;i++){const r=24+rnd()*80,t=rnd()*TAU,ph=Math.acos(2*rnd()-1);
+    pos[i*3]=r*Math.sin(ph)*Math.cos(t);pos[i*3+1]=Math.abs(r*Math.cos(ph))*0.6+4;pos[i*3+2]=r*Math.sin(ph)*Math.sin(t);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:0x7d7a88,size:0.13,transparent:true,opacity:.5})));
+})();
+
+let target=0,prog=0;
+function onScroll(){const mx=document.body.scrollHeight-innerHeight;target=mx>0?clamp(scrollY/mx,0,1):0;}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+let pmx=0,pmy=0;
+addEventListener('pointermove',e=>{pmx=(e.clientX/innerWidth-.5);pmy=(e.clientY/innerHeight-.5);});
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');e.target.classList.add('has-in');}});},{threshold:0.16});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+document.querySelectorAll('.ch.act').forEach(el=>io.observe(el));
+dots.forEach(d=>d.addEventListener('click',()=>{
+  const mx=document.body.scrollHeight-innerHeight;
+  scrollTo({top:(+d.dataset.i/(NCH-1))*mx*0.999,behavior:'smooth'});
+}));
+
+/* ===== KEYFRAMES (36) ===== */
+const KF=[
+ {p:[FX+5,8,32],l:[FX,7,0]},     /* 0 hero */
+ {p:[0,12,48],l:[0,9,0]},        /* 1 ACTO I */
+ {p:[-2,11,42],l:[0,8,0]},       /* 2 problema */
+ {p:[0,13,46],l:[0,9,0]},        /* 3 tesis */
+ {p:[FX+9,7,22],l:[FX,5,0]},     /* 4 activo */
+ {p:[-6,14,46],l:[0,9,0]},       /* 5 ACTO II */
+ {p:[3,12,40],l:[1,8,0]},        /* 6 gemelo */
+ {p:[FX-12,8,28],l:[FX,5,0]},    /* 7 robotización */
+ {p:[FX-15,12,30],l:[FX,9,0]},   /* 8 estructura */
+ {p:[FX-13,16,26],l:[FX,12,0]},  /* 9 módulos */
+ {p:[FX+12,15,28],l:[FX,13,0]},  /* 10 envolvente */
+ {p:[FX-4,10,40],l:[FX+2,9,0]},  /* 11 infraestructura */
+ {p:[8,14,46],l:[0,11,0]},       /* 12 ACTO III */
+ {p:[DX+17,15,30],l:[DX,13,0]},  /* 13 7 capas */
+ {p:[DX+13,18,26],l:[DX,15,0]},  /* 14 neuronas */
+ {p:[DX-12,14,28],l:[DX,12,0]},  /* 15 chips */
+ {p:[DX+14,16,28],l:[DX,13,0]},  /* 16 carpeta */
+ {p:[0,18,52],l:[0,12,0]},       /* 17 ACTO IV */
+ {p:[0,16,44],l:[0,11,0]},       /* 18 vivo */
+ {p:[DX+16,14,30],l:[DX,12,0]},  /* 19 nodos */
+ {p:[DX-10,16,24],l:[DX,14,0]},  /* 20 ia */
+ {p:[DX+19,12,34],l:[DX,11,0]},  /* 21 infra servicio */
+ {p:[DX+13,11,32],l:[DX,10,0]},  /* 22 créditos */
+ {p:[DX+15,11,32],l:[DX,10,0]},  /* 23 servicios */
+ {p:[2,15,40],l:[0,11,0]},       /* 24 market */
+ {p:[0,22,56],l:[0,10,0]},       /* 25 ciudad operativa */
+ {p:[6,20,52],l:[0,10,0]},       /* 26 nuevo registro */
+ {p:[-6,24,60],l:[0,10,0]},      /* 27 DAO vivienda */
+ {p:[0,28,72],l:[0,9,0]},        /* 28 ACTO V */
+ {p:[2,38,82],l:[0,8,0]},        /* 29 ventaja */
+ {p:[8,42,90],l:[0,9,0]},        /* 30 efecto OS */
+ {p:[0,52,108],l:[0,9,0]},       /* 31 ACTO VI */
+ {p:[-4,48,100],l:[0,9,0]},      /* 32 capacidades */
+ {p:[10,56,118],l:[0,9,0]},      /* 33 internacional */
+ {p:[18,64,130],l:[0,9,0]},      /* 34 valor */
+ {p:[24,72,146],l:[0,9,0]}       /* 35 final */
+];
+const cP=new THREE.Vector3(),cL=new THREE.Vector3();
+function camAt(p){
+  const f=p*(KF.length-1),i=clamp(Math.floor(f),0,KF.length-2),t=ease(clamp(f-i,0,1));
+  const A=KF[i],B=KF[i+1];
+  cP.set(lerp(A.p[0],B.p[0],t),lerp(A.p[1],B.p[1],t),lerp(A.p[2],B.p[2],t));
+  cL.set(lerp(A.l[0],B.l[0],t),lerp(A.l[1],B.l[1],t),lerp(A.l[2],B.l[2],t));
+}
+
+const _m=new THREE.Matrix4(),_v=new THREE.Vector3(),_q=new THREE.Quaternion(),_e=new THREE.Euler(),_s=new THREE.Vector3();
+function sg(x,a,b){return clamp((x-a)/(b-a),0,1);}
+let lastStage=-1;
+function updateScene(p,time,dt){
+  const cs=p*(NCH-1);
+  camAt(p);
+  camera.position.x+=(cP.x+pmx*3-camera.position.x)*0.05;
+  camera.position.y+=(cP.y-pmy*2-camera.position.y)*0.05;
+  camera.position.z+=(cP.z-camera.position.z)*0.05;
+  camera.lookAt(cL.x,cL.y,cL.z);
+
+  /* OS CORE · brilla en hero (0) y en actos (1, 5, 12, 17, 28, 31) */
+  let osActive=0;
+  if(cs<0.7)osActive=1-cs/0.7;
+  [1,5,12,17,28,31].forEach(idx=>{const d=Math.abs(cs-idx);if(d<0.7)osActive=Math.max(osActive,1-d/0.7);});
+  osCore.visible=osActive>0.02;
+  if(osCore.visible){
+    osInner.material.opacity=osActive;
+    osInner.material.emissiveIntensity=1.8+Math.sin(time*2)*0.6;
+    osInner.rotation.set(time*0.4,time*0.5,0);
+    osCage.material.opacity=osActive*0.6;
+    osCage.rotation.set(-time*0.3,time*0.2,0);
+    osRing.material.opacity=osActive*0.7;
+    osRing.rotation.z=time*0.4;
+    osGlow.material.opacity=osActive*0.6;
+    osGlow.scale.setScalar(12+Math.sin(time*1.4)*1.4);
+    osCore.scale.setScalar(0.7+osActive*0.4);
+  }
+
+  /* enjambre */
+  const assemble=ease(sg(cs,3.2,4.4));
+  for(let i=0;i<SW;i++){
+    const i3=i*3,sd=swSeed[i];
+    let tx=lerp(swScatter[i3],swTarget[i3],assemble);
+    let ty=lerp(swScatter[i3+1],swTarget[i3+1],assemble);
+    let tz=lerp(swScatter[i3+2],swTarget[i3+2],assemble);
+    const j=(1-assemble)*1.2+0.06;
+    tx+=Math.sin(time*1.1+sd)*j;ty+=Math.sin(time*1.3+sd*1.7)*j;tz+=Math.cos(time*0.9+sd)*j;
+    swCur[i3]+=(tx-swCur[i3])*0.12;swCur[i3+1]+=(ty-swCur[i3+1])*0.12;swCur[i3+2]+=(tz-swCur[i3+2])*0.12;
+    const spin=(1-assemble)*2+0.15;
+    _e.set(time*spin*0.6+sd,time*spin*0.5,time*spin*0.4);_q.setFromEuler(_e);
+    const sc=lerp(0.9,1,assemble);_s.set(sc,sc,sc);
+    _v.set(swCur[i3],swCur[i3+1],swCur[i3+2]);
+    _m.compose(_v,_q,_s);swarm.setMatrixAt(i,_m);
+  }
+  swarm.instanceMatrix.needsUpdate=true;
+  swarm.visible=cs<10.4;
+  swMat.opacity=clamp(1-sg(cs,9.6,10.4),0,1);swMat.transparent=true;
+
+  parts.forEach(pt=>{
+    const want=cs>=pt.appear?1:0;
+    pt.mesh.userData.rt+=(want-pt.mesh.userData.rt)*0.1;
+    const rt=pt.mesh.userData.rt;
+    const m=pt.mesh.material;
+    if(pt._wire){
+      m.opacity=rt*(0.55+Math.sin(time*2.4+pt.mesh.position.y)*0.3);
+    }else{
+      m.opacity=rt;
+      if(m.emissiveMap&&m.emissive)m.emissiveIntensity=lerp(0.1,0.55,rt)*(0.8+Math.sin(time*1.5+pt.mesh.position.y)*0.2);
+    }
+    pt.mesh.visible=rt>0.012;
+    pt.mesh.scale.setScalar(lerp(0.82,1,ease(rt)));
+  });
+  fisico.position.y=Math.sin(time*0.5)*0.12;
+  digital.position.y=Math.sin(time*0.5+1)*0.16;
+  fisico.rotation.y=Math.sin(time*0.08)*0.04;
+  digital.rotation.y=Math.sin(time*0.08+1)*0.05;
+  twinNodes.forEach((n,i)=>{if(n.visible)n.material.emissiveIntensity=1.2+Math.sin(time*3+i*0.6)*1;});
+
+  const linkOn=sg(cs,6,6.8)*(1-sg(cs,27.6,28.4));
+  linkLine.material.opacity=linkOn*0.4;
+  linkPulses.forEach(pp=>{
+    pp.userData.t+=dt*0.4;if(pp.userData.t>1)pp.userData.t-=1;
+    const t=pp.userData.t;
+    pp.position.set(lerp(FX,DX,t),7+Math.sin(t*Math.PI)*1.4,0);
+    pp.visible=linkOn>0.05;pp.scale.setScalar(0.6+Math.sin(t*Math.PI)*0.6);
+  });
+
+  const robOn=sg(cs,6.5,7.4)*(1-sg(cs,9.6,10.4));
+  robotG.visible=robOn>0.02;
+  if(robotG.visible){
+    robots.forEach((r,i)=>{
+      const u=r.userData;
+      u.armPivot.rotation.y=Math.sin(time*1.5+u.phase)*1.2;
+      u.armPivot.rotation.x=Math.sin(time*1.1+u.phase)*0.3;
+      u.castParts.forEach(p=>{
+        p.material.opacity=robOn;
+        if(p===u.castParts[3])p.material.emissiveIntensity=1.8+Math.sin(time*4+u.phase)*1.2;
+      });
+    });
+    goldL.intensity=robOn*2.6;
+    goldL.position.set(FX,4,8);
+  }else goldL.intensity=lerp(goldL.intensity,0,0.1);
+
+  const bizOn=sg(cs,12.5,13.4)*(1-sg(cs,27.6,28.4));
+  bizG.visible=bizOn>0.02;
+  if(bizG.visible){
+    bizRings.forEach((r,i)=>{
+      const ap=ease(clamp(sg(cs,12.6,14.4)*2.4-i*0.18,0,1));
+      r.material.opacity=ap*bizOn*0.9;
+      r.material.emissiveIntensity=0.4+ap*(1.4+Math.sin(time*2+i*0.5)*0.6);
+      r.rotation.z=time*0.25*(i%2?1:-1);
+      r.position.y=r.userData.base+Math.sin(time*0.8+i)*0.2;
+      r.scale.setScalar(0.6+ap*0.4);
+    });
+  }
+  const neuOn=sg(cs,13.5,14.4)*(1-sg(cs,27.6,28.4));
+  neuG.visible=neuOn>0.02;
+  if(neuG.visible){
+    neuG.rotation.y=time*0.07;
+    neurons.forEach((n,i)=>{
+      const ap=ease(clamp(sg(cs,13.6,14.7)*1.8-i/neurons.length,0,1));
+      n.material.opacity=ap*neuOn;
+      n.material.emissiveIntensity=1+Math.sin(time*3.4+n.userData.ph)*1.1;
+      n.scale.setScalar(0.7+Math.sin(time*2+n.userData.ph)*0.3);
+    });
+    neuLines.material.opacity=neuOn*0.4*(0.55+Math.sin(time*2.2)*0.45);
+  }
+  const chipOn=sg(cs,14.5,15.4)*(1-sg(cs,27.6,28.4));
+  chipG.visible=chipOn>0.02;
+  if(chipG.visible){
+    chipG.rotation.y=time*0.1;
+    chips.forEach((c,i)=>{
+      const ap=ease(clamp(sg(cs,14.6,15.7)*2-i*0.2,0,1));
+      c.material.opacity=ap*chipOn*0.9;
+      c.material.emissiveIntensity=0.3+ap*(0.7+Math.sin(time*2.5+i)*0.4);
+      c.position.y=c.userData.base+Math.sin(time*0.7+i)*0.4;
+      c.rotation.z+=dt*0.2*(i%2?1:-1);
+    });
+  }
+  const cmOn=sg(cs,15.5,16.4)*(1-sg(cs,27.6,28.4));
+  cmG.visible=cmOn>0.02;
+  if(cmG.visible){
+    cmG.rotation.y=time*0.08;
+    cmLayers.forEach((tor,i)=>{
+      const ap=ease(clamp(sg(cs,15.6,17)*2-i/13,0,1));
+      tor.material.opacity=ap*cmOn;
+      tor.material.emissiveIntensity=0.5+ap*(1+Math.sin(time*2+i*0.3)*0.4);
+      tor.rotation.z=time*0.18*(i%2?1:-1);
+      tor.position.y=tor.userData.base+Math.sin(time*0.7+i*0.4)*0.18;
+    });
+  }
+  const nodeOn=sg(cs,18.5,19.4)*(1-sg(cs,27.6,28.4));
+  nodeG.visible=nodeOn>0.02;
+  if(nodeG.visible){
+    nodeG.rotation.y=time*0.06;
+    cmat.opacity=nodeOn;
+    cmat.emissiveIntensity=0.7+Math.sin(time*1.8)*0.3;
+    for(let i=0;i<nodeCount;i++){
+      const d=nodeData[i];
+      _v.set(d.x+Math.sin(time*d.sp+d.ph)*0.5,d.y+Math.cos(time*d.sp*0.7+d.ph)*0.5,d.z+Math.sin(time*d.sp*0.5+d.ph)*0.5);
+      _e.set(time*d.sp,time*d.sp*0.7,time*d.sp*0.4);_q.setFromEuler(_e);
+      const sc=(0.7+Math.sin(time*2+d.ph)*0.3)*ease(clamp(sg(cs,18.6,20)*2-i/nodeCount,0,1));
+      _ns.set(sc,sc,sc);
+      _m.compose(_v,_q,_ns);
+      nodes.setMatrixAt(i,_m);
+    }
+    nodes.instanceMatrix.needsUpdate=true;
+  }
+  const iaOn=sg(cs,19.5,20.4)*(1-sg(cs,27.6,28.4));
+  iaG.visible=iaOn>0.02;
+  if(iaG.visible){
+    iaCore.material.opacity=iaOn;
+    iaCore.material.emissiveIntensity=1.4+Math.sin(time*2.4)*0.6;
+    iaCore.rotation.set(time*0.4,time*0.55,0);
+    iaCage.material.opacity=iaOn*0.6;
+    iaCage.rotation.set(-time*0.3,time*0.25,0);
+    iaGlow.material.opacity=iaOn*0.45;
+    iaGlow.scale.setScalar(9+Math.sin(time*1.4)*1.6);
+    iaSyn.forEach(l=>{l.material.opacity=iaOn*(0.3+Math.sin(time*4+l.userData.ph)*0.5);});
+    iaG.scale.setScalar(0.6+ease(sg(cs,19.6,20.6))*0.4);
+  }
+  const beamOn=Math.max(sg(cs,20.5,21.4),sg(cs,22.5,23.4),sg(cs,23.5,24.4))*(1-sg(cs,27.6,28.4));
+  beamG.visible=beamOn>0.02;
+  if(beamG.visible){
+    beamG.rotation.y=time*0.12;
+    beams.forEach((b,i)=>{
+      const ap=ease(clamp(sg(cs,20.6,24.4)*2.2-i*0.08,0,1));
+      b.ln.material.opacity=ap*beamOn*(0.4+Math.sin(time*3+i)*0.3);
+      const tp=(time*0.5+i*0.13)%1;
+      b.tip.position.copy(b.tip.userData.dir).multiplyScalar(b.tip.userData.len*tp);
+      b.tip.visible=ap>0.1;b.tip.scale.setScalar(ap*(0.6+Math.sin(time*4+i)*0.3));
+    });
+  }
+  const credOn=sg(cs,21.5,22.4)*(1-sg(cs,27.6,28.4));
+  credG.visible=credOn>0.02;
+  if(credG.visible){
+    credG.rotation.y=time*0.06;
+    credTokens.forEach((tk,i)=>{
+      const ap=ease(clamp(sg(cs,21.6,22.7)*2-i/14,0,1));
+      const a=tk.userData.a+time*0.3;
+      tk.position.set(Math.cos(a)*tk.userData.r,tk.userData.y+Math.sin(time*0.8+i)*0.5,Math.sin(a)*tk.userData.r);
+      tk.rotation.set(time*0.5,time*0.4,Math.sin(time+tk.userData.ph)*0.2);
+      tk.material.opacity=ap*credOn;
+      tk.material.emissiveIntensity=1.2+Math.sin(time*2+tk.userData.ph)*0.7;
+      tk.scale.setScalar(0.7+ap*0.4);
+    });
+    chainBlocks.forEach((b,i)=>{
+      const ap=ease(clamp(sg(cs,21.7,23)*2-i/22,0,1));
+      b.material.opacity=ap*credOn;
+      b.material.emissiveIntensity=0.8+(i===((time*4)%22|0)?1.8:0)+Math.sin(time*3+i*0.4)*0.3;
+      b.rotation.y=time*0.5+i*0.2;
+    });
+    chainLine.material.opacity=credOn*0.5;
+  }
+  const strOn=sg(cs,17.5,18.4);
+  streams.forEach(m=>{
+    m.userData.t+=m.userData.sp*dt;if(m.userData.t>1)m.userData.t-=1;
+    m.position.set(m.userData.bx+Math.cos(m.userData.a+time*0.5)*m.userData.r,
+                   1.3+m.userData.t*BH,Math.sin(m.userData.a+time*0.5)*m.userData.r);
+    m.visible=strOn>0.05;
+    const sc=(0.7+Math.sin(time*5+m.userData.a)*0.3)*strOn;m.scale.setScalar(sc);
+  });
+
+  digL.intensity=lerp(0,3,sg(cs,6,7.4))*(1-sg(cs,27.8,28.6)*0.6);
+  digL.position.set(DX,BH*0.5,4);
+  ambL.intensity=lerp(0,2.4,sg(cs,4,5.4));
+  ambL.position.set(FX,8,5);
+  vioL.intensity=iaOn*3.4;vioL.position.set(DX,BH/2+2,3);
+  grnL.intensity=credOn*3;grnL.position.set(DX,8,3);
+  redL.intensity=sg(cs,28.5,29.4)*4;redL.position.set(0,12,0);
+  atmo.children[2].material.opacity=iaOn*0.18;
+  atmo.children[3].material.opacity=credOn*0.18;
+  atmo.children[4].material.opacity=robOn*0.14;
+  atmo.children[5].material.opacity=sg(cs,28.5,29.4)*0.16;
+
+  const netOn=Math.max(sg(cs,28.5,29.3),sg(cs,29.5,30.4),sg(cs,30.7,35));
+  netG.visible=netOn>0.02;
+  if(netG.visible){
+    netG.rotation.y=time*0.03;
+    netG.children.forEach(ch=>{
+      if(ch.name==='netLines'){ch.material.opacity=netOn*0.32*(0.6+Math.sin(time*1.6)*0.4);}
+      else if(ch.isGroup){
+        ch.children.forEach(o=>{
+          if(o.material){o.material.transparent=true;o.material.opacity=netOn*(o.isLineSegments?0.65:1);
+            if(o.material.emissiveIntensity!==undefined)
+              o.material.emissiveIntensity=0.3+Math.sin(time*1.4+ch.position.x*0.1)*0.2;}});
+      }
+    });
+  }
+  const sc2=lerp(1,0.55,netOn);
+  fisico.scale.setScalar(sc2);digital.scale.setScalar(sc2);
+  bizG.scale.setScalar(sc2);neuG.scale.setScalar(sc2);chipG.scale.setScalar(sc2);
+  cmG.scale.setScalar(sc2);nodeG.scale.setScalar(sc2);iaG.scale.setScalar(sc2*0.5+0.5);
+  credG.scale.setScalar(sc2);swarm.scale.setScalar(sc2);robotG.scale.setScalar(sc2);
+
+  renderer.toneMappingExposure=1.05+netOn*0.18;
+
+  const stage=clamp(Math.floor(p*NCH*0.999),0,NCH-1);
+  if(stage!==lastStage){
+    lastStage=stage;
+    if(flash){flash.classList.add('on');setTimeout(()=>flash.classList.remove('on'),320);}
+  }
+  dots.forEach((d,i)=>{d.classList.toggle('on',i===stage);d.classList.toggle('done',i<stage);});
+  bNow.textContent=LABELS[stage];
+  bPct.textContent=String(Math.round(p*100)).padStart(2,'0');
+  topbar.style.width=(p*100)+'%';
+
+  /* PARALLAX LAYERS · scroll + pointer */
+  if(pllxGrid){
+    const gx=pmx*16+p*-40,gy=pmy*-10+p*120;
+    pllxGrid.style.transform='translate3d('+gx.toFixed(1)+'px,'+gy.toFixed(1)+'px,0)';
+  }
+  if(pllxHalo){
+    const hx=pmx*-22,hy=pmy*-14;
+    pllxHalo.style.transform='translate3d('+hx.toFixed(1)+'px,'+hy.toFixed(1)+'px,0) scale('+(1+osActive*0.04).toFixed(3)+')';
+  }
+
+  /* ASSET CARD · hash + block tick */
+  if(acHash&&(Math.floor(time*2)%2===0)){
+    const newHash=hashChars(p,time);
+    if(acHash._last!==newHash){acHash._last=newHash;acHash.textContent=newHash;}
+  }
+  if(acBlk){
+    const blk=284193+Math.floor(time*3.7)+Math.floor(p*120);
+    acBlk.textContent=blk.toLocaleString('es-ES');
+  }
+  if(lpTxt){
+    const nodos=Math.floor(8+p*2740+Math.sin(time*0.5)*4);
+    const m2=Math.floor(140+p*129800+Math.sin(time*0.6)*7);
+    lpTxt.textContent='LIVE · NODOS '+nodos.toLocaleString('es-ES')+' / m² '+m2.toLocaleString('es-ES');
+  }
+}
+
+/* Helpers for live counters */
+const HEXch='0123456789ABCDEF';
+function hashChars(p,t){
+  let s='CAVE';
+  const seed=Math.floor(t*2+p*40);
+  for(let i=0;i<4;i++)s+=HEXch[(seed+i*7+i)%16];
+  s+='…';
+  for(let i=0;i<4;i++)s+=HEXch[(seed*3+i*11)%16];
+  return s;
+}
+const pllxGrid=document.getElementById('pllxGrid');
+const pllxHalo=document.getElementById('pllxHalo');
+const acHash=document.getElementById('acHash');
+const acBlk=document.getElementById('acBlk');
+const livepill=document.getElementById('livepill');
+const lpTxt=document.getElementById('lpTxt');
+
+let t0=performance.now(),lastT=t0;
+function animate(){
+  requestAnimationFrame(animate);
+  const now=performance.now(),time=(now-t0)/1000,dt=Math.min(0.05,(now-lastT)/1000);lastT=now;
+  prog+=(target-prog)*0.06;
+  updateScene(clamp(prog,0,1),time,dt);
+  renderer.render(scene,camera);
+}
+animate();
+addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+/* ===== INTRO CINEMÁTICO ===== */
+const cintro=document.getElementById('cintro');
+const cphrases=document.querySelectorAll('#cintro .cphrase');
+const cskip=document.getElementById('cskip');
+const phraseDelays=[0,1700,3500,5400,7300,10700];
+const introDuration=13000;
+let introStarted=false,introDone=false;
+function startIntro(){
+  if(introStarted)return;introStarted=true;
+  cphrases.forEach((el,i)=>{setTimeout(()=>el.classList.add('go'),phraseDelays[i]);});
+  setTimeout(endIntro,introDuration);
+}
+function endIntro(){
+  if(introDone)return;introDone=true;
+  cintro.classList.add('gone');
+  setTimeout(()=>{document.querySelectorAll('#hero .rv').forEach(el=>el.classList.add('in'));},300);
+}
+cskip.addEventListener('click',endIntro);
+
+/* ===== LOADER · BOOT SEQUENCE ===== */
+function startBoot(){
+  if(startBoot._ran)return; startBoot._ran=true;
+  let lv=0;const lpFill=document.getElementById('lpFill');
+  const LSTEPS=[document.getElementById('lstep0'),document.getElementById('lstep1'),document.getElementById('lstep2'),document.getElementById('lstep3'),document.getElementById('lstep4'),document.getElementById('lstep5')];
+  if(LSTEPS[5])LSTEPS[5].classList.add('last');
+  const li=setInterval(()=>{
+    lv+=7+Math.random()*12;if(lv>100)lv=100;lpFill.style.width=lv+'%';
+    const stepIdx=Math.min(5,Math.floor(lv/17));
+    for(let i=0;i<=stepIdx;i++){if(LSTEPS[i])LSTEPS[i].classList.add('on');}
+    if(lv>=100){clearInterval(li);
+      setTimeout(()=>{loader.classList.add('gone');startIntro();},620);}
+  },105);
+}
+window.__startBoot=startBoot;
+if(window.__gateOK){startBoot();}
+
+})();
+</script>
+</body>
+</html>
